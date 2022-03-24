@@ -43,6 +43,7 @@ public class ItemServiceTest {
         when(itemRepository.findById(anyInt())).thenReturn(Optional.of(item));
 
         Item itemFound = itemService.findById(0);
+
         assertEquals(item, itemFound);
     }
 
@@ -83,15 +84,18 @@ public class ItemServiceTest {
     @Test
     public void testUpdateItemByIdWhenItemWasFound() {
 
-        var item = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
-        itemRepository.save(item);
-
-        var updatedItem = new Item(5, "Cookie2", 10, 30, Item.Type.NORMAL);
+        var item = new Item(5, "Cookie", 10, 30, Item.Type.TICKETS);
+        var newItem = new Item(5, "Chocolate cookie", 9, 32, Item.Type.NORMAL);
         when(itemRepository.findById(5)).thenReturn(Optional.of(item));
-        when(itemRepository.save(any(Item.class))).thenReturn(updatedItem);
+        when(itemRepository.save(any(Item.class))).thenReturn(newItem);
 
-        itemService.updateItem(5,updatedItem);
+        Item updatedItem = itemService.updateItem(5,newItem);
 
+        assertEquals(5, updatedItem.getId());
+        assertEquals("Chocolate cookie", updatedItem.name);
+        assertEquals(9, updatedItem.sellIn);
+        assertEquals(32, updatedItem.quality);
+        assertEquals(Item.Type.NORMAL,updatedItem.type);
     }
 
     @Test
