@@ -28,7 +28,7 @@ public class ItemServiceTest {
 
 
     @Test
-    public void testGetItemByIdWhenItemWasNotFound(){
+    public void testGetItemByIdWhenItemWasNotFound() {
 
         when(itemRepository.findById(anyInt())).thenReturn(Optional.empty());
 
@@ -37,7 +37,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testGetItemByIdSuccess(){
+    public void testGetItemByIdSuccess() {
 
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
         when(itemRepository.findById(anyInt())).thenReturn(Optional.of(item));
@@ -53,7 +53,7 @@ public class ItemServiceTest {
      * THEN the service should update the quality and sellIn values,
      * both will be decreased by 1
      */
-    public void testUpdateQualityOfNormalTypeItem(){
+    public void testUpdateQualityOfNormalTypeItem() {
 
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
         when(itemRepository.findAll()).thenReturn(List.of(item));
@@ -65,15 +65,42 @@ public class ItemServiceTest {
         assertEquals(9, itemsUpdated.get(0).sellIn);
         assertEquals(29, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.NORMAL, itemsUpdated.get(0).type);
-        verify(itemRepository,times(1)).save(any());
+        verify(itemRepository, times(1)).save(any());
     }
 
+    @Test
+    public void testUpdateItemByIdWhenItemWasNotFound() {
 
+        var item = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
+        itemRepository.save(item);
 
+        when(itemRepository.findById(anyInt())).thenReturn(Optional.empty());
 
+        assertThrows(ResourceNotFoundException.class, () ->
+                itemService.updateItem(6, item));
+    }
 
+    @Test
+    public void testUpdateItemByIdWhenItemWasFound() {
 
+        var item = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
+        itemRepository.save(item);
 
+        var updatedItem = new Item(5, "Cookie2", 10, 30, Item.Type.NORMAL);
+        when(itemRepository.findById(5)).thenReturn(Optional.of(item));
+        when(itemRepository.save(any(Item.class))).thenReturn(updatedItem);
 
+        itemService.updateItem(5,updatedItem);
+
+    }
+
+    @Test
+    public void testCreateItem(){
+
+        var item = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
+        when(itemRepository.save(any(Item.class))).thenReturn(item);
+
+        itemService.createItem(item);
+    }
 
 }
