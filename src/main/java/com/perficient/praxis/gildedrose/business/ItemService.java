@@ -83,6 +83,10 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
+    public List<Item> createItems(List<Item> items) {
+        return itemRepository.saveAll(items);
+    }
+
     public Item updateItem(int id, Item item) {
         try{
             findById(id);
