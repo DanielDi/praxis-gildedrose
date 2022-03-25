@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -98,7 +99,6 @@ public class ItemServiceTest {
         assertEquals(1, itemsUpdated.get(0).sellIn);
         assertEquals(31, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.AGED, itemsUpdated.get(0).type);
-        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -114,7 +114,6 @@ public class ItemServiceTest {
         assertEquals(1, itemsUpdated.get(0).sellIn);
         assertEquals(50, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.TICKETS, itemsUpdated.get(0).type);
-        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -130,7 +129,6 @@ public class ItemServiceTest {
         assertEquals(1, itemsUpdated.get(0).sellIn);
         assertEquals(50, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.TICKETS, itemsUpdated.get(0).type);
-        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -146,7 +144,6 @@ public class ItemServiceTest {
         assertEquals(14, itemsUpdated.get(0).sellIn);
         assertEquals(50, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.TICKETS, itemsUpdated.get(0).type);
-        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -162,7 +159,6 @@ public class ItemServiceTest {
         assertEquals(14, itemsUpdated.get(0).sellIn);
         assertEquals(50, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.TICKETS, itemsUpdated.get(0).type);
-        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -179,6 +175,96 @@ public class ItemServiceTest {
         assertEquals(30, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.LEGENDARY, itemsUpdated.get(0).type);
         verify(itemRepository, times(1)).save(any());
+    }
+
+    @Test
+    public void testUpdateQualityOfLegendaryTypeItemWithSellinEqualZero() {
+
+        var item = new Item(0, "Butter", -1, 4, Item.Type.LEGENDARY);
+        when(itemRepository.findAll()).thenReturn(List.of(item));
+
+        List<Item> itemsUpdated = itemService.updateQuality();
+
+        assertEquals(0, itemsUpdated.get(0).getId());
+        assertEquals("Butter", itemsUpdated.get(0).name);
+        assertEquals(-1, itemsUpdated.get(0).sellIn);
+        assertEquals(4, itemsUpdated.get(0).quality);
+        assertEquals(Item.Type.LEGENDARY, itemsUpdated.get(0).type);
+    }
+
+    @Test
+    public void testUpdateQualityOfAgedTypeItemWithSellinEqualZero() {
+
+        var item = new Item(0, "Butter", -1, 0, Item.Type.AGED);
+        when(itemRepository.findAll()).thenReturn(List.of(item));
+
+        List<Item> itemsUpdated = itemService.updateQuality();
+
+        assertEquals(0, itemsUpdated.get(0).getId());
+        assertEquals("Butter", itemsUpdated.get(0).name);
+        assertEquals(-2, itemsUpdated.get(0).sellIn);
+        assertEquals(2, itemsUpdated.get(0).quality);
+        assertEquals(Item.Type.AGED, itemsUpdated.get(0).type);
+    }
+
+    @Test
+    public void testUpdateQualityOfAgedTypeItemWithSellinEqualZeroQualityFifty() {
+
+        var item = new Item(0, "Butter", -1, 50, Item.Type.AGED);
+        when(itemRepository.findAll()).thenReturn(List.of(item));
+
+        List<Item> itemsUpdated = itemService.updateQuality();
+
+        assertEquals(0, itemsUpdated.get(0).getId());
+        assertEquals("Butter", itemsUpdated.get(0).name);
+        assertEquals(-2, itemsUpdated.get(0).sellIn);
+        assertEquals(50, itemsUpdated.get(0).quality);
+        assertEquals(Item.Type.AGED, itemsUpdated.get(0).type);
+    }
+
+    @Test
+    public void testUpdateQualityOfLegendaryTypeItemWithSellinEqualZero2() {
+
+        var item = new Item(0, "Butter", -1, 0, Item.Type.LEGENDARY);
+        when(itemRepository.findAll()).thenReturn(List.of(item));
+
+        List<Item> itemsUpdated = itemService.updateQuality();
+
+        assertEquals(0, itemsUpdated.get(0).getId());
+        assertEquals("Butter", itemsUpdated.get(0).name);
+        assertEquals(-1, itemsUpdated.get(0).sellIn);
+        assertEquals(0, itemsUpdated.get(0).quality);
+        assertEquals(Item.Type.LEGENDARY, itemsUpdated.get(0).type);
+    }
+
+    @Test
+    public void testUpdateQualityOfNormalTypeItemWithSellinEqualZero() {
+
+        var item = new Item(0, "Butter", 0, 30, Item.Type.NORMAL);
+        when(itemRepository.findAll()).thenReturn(List.of(item));
+
+        List<Item> itemsUpdated = itemService.updateQuality();
+
+        assertEquals(0, itemsUpdated.get(0).getId());
+        assertEquals("Butter", itemsUpdated.get(0).name);
+        assertEquals(-1, itemsUpdated.get(0).sellIn);
+        assertEquals(28, itemsUpdated.get(0).quality);
+        assertEquals(Item.Type.NORMAL, itemsUpdated.get(0).type);
+    }
+
+    @Test
+    public void testUpdateQualityOfTicketTypeItemWithSellinEqualZero() {
+
+        var item = new Item(0, "Butter", 0, 30, Item.Type.TICKETS);
+        when(itemRepository.findAll()).thenReturn(List.of(item));
+
+        List<Item> itemsUpdated = itemService.updateQuality();
+
+        assertEquals(0, itemsUpdated.get(0).getId());
+        assertEquals("Butter", itemsUpdated.get(0).name);
+        assertEquals(-1, itemsUpdated.get(0).sellIn);
+        assertEquals(0, itemsUpdated.get(0).quality);
+        assertEquals(Item.Type.TICKETS, itemsUpdated.get(0).type);
     }
 
 
@@ -209,6 +295,21 @@ public class ItemServiceTest {
         assertEquals(9, updatedItem.sellIn);
         assertEquals(32, updatedItem.quality);
         assertEquals(Item.Type.NORMAL,updatedItem.type);
+    }
+
+    @Test
+    public void testListItems() {
+
+        var item = new Item(5, "Cookie", 10, 30, Item.Type.TICKETS);
+        var item2 = new Item(5, "Chocolate cookie", 9, 32, Item.Type.NORMAL);
+        List<Item> items = new ArrayList<>();
+        items.add(item);
+        items.add(item2);
+        when(itemRepository.findAll()).thenReturn(items);
+
+        List<Item> finalList = itemService.listItems();
+
+        assertEquals(items , finalList);
     }
 
     @Test
