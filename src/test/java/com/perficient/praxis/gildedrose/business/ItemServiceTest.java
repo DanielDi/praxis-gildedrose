@@ -73,13 +73,13 @@ public class ItemServiceTest {
     @Test
     public void testUpdateQualityOfLessThanZeroQualityItem() {
 
-        var item = new Item(0, "Oreo", 10, 0, Item.Type.NORMAL);
+        var item = new Item(0, "strawberry", 10, 0, Item.Type.NORMAL);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
         List<Item> itemsUpdated = itemService.updateQuality();
 
         assertEquals(0, itemsUpdated.get(0).getId());
-        assertEquals("Oreo", itemsUpdated.get(0).name);
+        assertEquals("strawberry", itemsUpdated.get(0).name);
         assertEquals(9, itemsUpdated.get(0).sellIn);
         assertEquals(0, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.NORMAL, itemsUpdated.get(0).type);
@@ -178,60 +178,60 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testUpdateQualityOfLegendaryTypeItemWithSellinEqualZero() {
+    public void testUpdateQualityOfLegendaryTypeItemWithSellinLessThanZero() {
 
-        var item = new Item(0, "Butter", -1, 4, Item.Type.LEGENDARY);
+        var item = new Item(0, "Almonds", -1, 4, Item.Type.LEGENDARY);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
         List<Item> itemsUpdated = itemService.updateQuality();
 
         assertEquals(0, itemsUpdated.get(0).getId());
-        assertEquals("Butter", itemsUpdated.get(0).name);
+        assertEquals("Almonds", itemsUpdated.get(0).name);
         assertEquals(-1, itemsUpdated.get(0).sellIn);
         assertEquals(4, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.LEGENDARY, itemsUpdated.get(0).type);
     }
 
     @Test
-    public void testUpdateQualityOfAgedTypeItemWithSellinEqualZero() {
+    public void testUpdateQualityOfAgedTypeItemWithSellinLessThanZero() {
 
-        var item = new Item(0, "Butter", -1, 0, Item.Type.AGED);
+        var item = new Item(0, "Wine", -1, 0, Item.Type.AGED);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
         List<Item> itemsUpdated = itemService.updateQuality();
 
         assertEquals(0, itemsUpdated.get(0).getId());
-        assertEquals("Butter", itemsUpdated.get(0).name);
+        assertEquals("Wine", itemsUpdated.get(0).name);
         assertEquals(-2, itemsUpdated.get(0).sellIn);
         assertEquals(2, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.AGED, itemsUpdated.get(0).type);
     }
 
     @Test
-    public void testUpdateQualityOfAgedTypeItemWithSellinEqualZeroQualityFifty() {
+    public void testUpdateQualityOfAgedTypeItemWithSellinLessThanZeroAndQualityFifty() {
 
-        var item = new Item(0, "Butter", -1, 50, Item.Type.AGED);
+        var item = new Item(0, "Beer", -1, 50, Item.Type.AGED);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
         List<Item> itemsUpdated = itemService.updateQuality();
 
         assertEquals(0, itemsUpdated.get(0).getId());
-        assertEquals("Butter", itemsUpdated.get(0).name);
+        assertEquals("Beer", itemsUpdated.get(0).name);
         assertEquals(-2, itemsUpdated.get(0).sellIn);
         assertEquals(50, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.AGED, itemsUpdated.get(0).type);
     }
 
     @Test
-    public void testUpdateQualityOfLegendaryTypeItemWithSellinEqualZero2() {
+    public void testUpdateQualityOfLegendaryTypeItemWithQualityEqualZero() {
 
-        var item = new Item(0, "Butter", -1, 0, Item.Type.LEGENDARY);
+        var item = new Item(0, "Water", -1, 0, Item.Type.LEGENDARY);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
         List<Item> itemsUpdated = itemService.updateQuality();
 
         assertEquals(0, itemsUpdated.get(0).getId());
-        assertEquals("Butter", itemsUpdated.get(0).name);
+        assertEquals("Water", itemsUpdated.get(0).name);
         assertEquals(-1, itemsUpdated.get(0).sellIn);
         assertEquals(0, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.LEGENDARY, itemsUpdated.get(0).type);
@@ -240,13 +240,13 @@ public class ItemServiceTest {
     @Test
     public void testUpdateQualityOfNormalTypeItemWithSellinEqualZero() {
 
-        var item = new Item(0, "Butter", 0, 30, Item.Type.NORMAL);
+        var item = new Item(0, "Eggs", 0, 30, Item.Type.NORMAL);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
         List<Item> itemsUpdated = itemService.updateQuality();
 
         assertEquals(0, itemsUpdated.get(0).getId());
-        assertEquals("Butter", itemsUpdated.get(0).name);
+        assertEquals("Eggs", itemsUpdated.get(0).name);
         assertEquals(-1, itemsUpdated.get(0).sellIn);
         assertEquals(28, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.NORMAL, itemsUpdated.get(0).type);
@@ -255,13 +255,13 @@ public class ItemServiceTest {
     @Test
     public void testUpdateQualityOfTicketTypeItemWithSellinEqualZero() {
 
-        var item = new Item(0, "Butter", 0, 30, Item.Type.TICKETS);
+        var item = new Item(0, "Don Tetto concert", 0, 30, Item.Type.TICKETS);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
         List<Item> itemsUpdated = itemService.updateQuality();
 
         assertEquals(0, itemsUpdated.get(0).getId());
-        assertEquals("Butter", itemsUpdated.get(0).name);
+        assertEquals("Don Tetto concert", itemsUpdated.get(0).name);
         assertEquals(-1, itemsUpdated.get(0).sellIn);
         assertEquals(0, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.TICKETS, itemsUpdated.get(0).type);
