@@ -1,10 +1,12 @@
 package com.perficient.praxis.gildedrose.business;
 
+import com.perficient.praxis.gildedrose.error.DuplicatedFoundItemException;
 import com.perficient.praxis.gildedrose.error.ResourceNotFoundException;
 import com.perficient.praxis.gildedrose.model.Item;
 import com.perficient.praxis.gildedrose.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 
+import javax.swing.tree.ExpandVetoException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -83,8 +85,39 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
-    public List<Item> createItems(List<Item> items) {
-        return itemRepository.saveAll(items);
+    public List<Item> createItems(List<Item> items)throws Exception{
+            try{
+                checkDuplicates(items);
+                return itemRepository.saveAll(items);
+            } catch (DuplicatedFoundItemException e){
+                throw e;
+            }
+    }
+
+    public void checkDuplicates(List<Item> items) throws Exception{
+        List<Item> currentItems = itemRepository.findAll();
+        for (Item item: items){
+            for (Item currentItem:currentItems){
+                System.out.println(currentItem);
+                System.out.println(item);
+                Boolean duplicatedName = currentItem.name.equals(item.name);
+                System.out.println(currentItem.name);
+                System.out.println(item.name);
+                System.out.println(duplicatedName.toString() );
+                Boolean duplicatedSellIn = currentItem.sellIn == item.sellIn;
+                System.out.println(duplicatedSellIn.toString() );
+                Boolean duplicatedQuality = currentItem.quality == item.quality;
+                System.out.println(duplicatedQuality.toString() );
+                Boolean duplicatedType = currentItem.type == item.type;
+                System.out.println(duplicatedType.toString());
+                System.out.println(currentItem.type);
+                System.out.println(item.type);
+                if(duplicatedName && duplicatedSellIn && duplicatedQuality && duplicatedType){
+                    System.out.println("DUPLICADO");
+                    throw new DuplicatedFoundItemException("DUPLICADO ");
+                }
+            }
+        }
     }
 
     public Item updateItem(int id, Item item) {
