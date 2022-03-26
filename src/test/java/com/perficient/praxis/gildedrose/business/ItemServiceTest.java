@@ -31,6 +31,11 @@ public class ItemServiceTest {
 
 
     @Test
+    /**
+     * GIVEN the request to find a item with a id that doesn´t exist in the database
+     * WHEN findById method is called
+     * THEN must be thrown a exception of item not found
+     */
     public void testGetItemByIdWhenItemWasNotFound() {
 
         when(itemRepository.findById(anyInt())).thenReturn(Optional.empty());
@@ -40,6 +45,11 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN the request to find a item with a id that exists in the database
+     * WHEN findById method is called
+     * THEN the service should return the item with that id
+     */
     public void testGetItemByIdSuccess() {
 
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
@@ -271,6 +281,11 @@ public class ItemServiceTest {
 
 
     @Test
+    /**
+     * GIVEN the request to update any attribute of a nonexistent object in the database
+     * WHEN updateItem method is called
+     * THEN should be thrown an item not found exception
+     */
     public void testUpdateItemByIdWhenItemWasNotFound() {
 
         var item = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
@@ -283,6 +298,11 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN the request to update any attribute of a existent object in the database
+     * WHEN updateItem method is called
+     * THEN the repository should update the changed attributes
+     */
     public void testUpdateItemByIdWhenItemWasFound() {
 
         var item = new Item(5, "Cookie", 10, 30, Item.Type.TICKETS);
@@ -300,6 +320,11 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN the request to show all items in the database
+     * WHEN listItems method is called
+     * THEN the repository should return all the items in the database
+     */
     public void testListItems() {
 
         var item = new Item(5, "Cookie", 10, 30, Item.Type.TICKETS);
