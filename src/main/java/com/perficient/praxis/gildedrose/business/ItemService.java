@@ -98,25 +98,21 @@ public class ItemService {
         List<Item> currentItems = itemRepository.findAll();
         for (Item item: items){
             for (Item currentItem:currentItems){
+                Boolean duplicatedName = currentItem.name.equals(item.name);
+                Boolean duplicatedSellIn = currentItem.sellIn == item.sellIn;
+                Boolean duplicatedQuality = currentItem.quality == item.quality;
+                Boolean duplicatedType = currentItem.type == item.type;
                 System.out.println(currentItem);
                 System.out.println(item);
-                Boolean duplicatedName = currentItem.name.equals(item.name);
-                System.out.println(currentItem.name);
-                System.out.println(item.name);
-                System.out.println(duplicatedName.toString() );
-                Boolean duplicatedSellIn = currentItem.sellIn == item.sellIn;
-                System.out.println(duplicatedSellIn.toString() );
-                Boolean duplicatedQuality = currentItem.quality == item.quality;
-                System.out.println(duplicatedQuality.toString() );
-                Boolean duplicatedType = currentItem.type == item.type;
-                System.out.println(duplicatedType.toString());
-                System.out.println(currentItem.type);
-                System.out.println(item.type);
+                System.out.println(duplicatedName);
+                System.out.println(duplicatedSellIn);
+                System.out.println(duplicatedQuality);
+                System.out.println(duplicatedType);
                 if(duplicatedName && duplicatedSellIn && duplicatedQuality && duplicatedType){
-                    System.out.println("DUPLICADO");
-                    throw new DuplicatedFoundItemException("DUPLICADO ");
+                    throw new DuplicatedFoundItemException("");
                 }
             }
+            currentItems.add(item);
         }
     }
 

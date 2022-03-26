@@ -1,9 +1,11 @@
 package com.perficient.praxis.gildedrose.business;
 
+import com.perficient.praxis.gildedrose.error.DuplicatedFoundItemException;
 import com.perficient.praxis.gildedrose.error.ResourceNotFoundException;
 import com.perficient.praxis.gildedrose.model.Item;
 import com.perficient.praxis.gildedrose.repository.ItemRepository;
 
+import net.bytebuddy.pool.TypePool;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -313,12 +315,59 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a item
+     * WHEN createItem method is called
+     * THEN the service should save successfully the item in the database
+     */
     public void testCreateItem(){
 
         var item = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
         when(itemRepository.save(any(Item.class))).thenReturn(item);
 
-        itemService.createItem(item);
+        Item createdItem = itemService.createItem(item);
+
+        assertEquals(item, createdItem);
     }
+
+    @Test
+    /**
+     * GIVEN a batch of different items
+     * WHEN createItems method is called
+     * THEN the service should save all the items in the database
+     */
+    public void testCreateItemsSuccess() throws Exception{
+
+        var item1 = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
+        var item2 = new Item(6, "Flower", 8, 15, Item.Type.NORMAL);
+        List<Item> items = new ArrayList<>();
+        items.add(item1);
+        items.add(item2);
+        when(itemRepository.saveAll(items)).thenReturn(items);
+
+        try {
+            List<Item> createdItems = itemService.createItems(items);
+            assertEquals(createdItems, items);
+        } catch (DuplicatedFoundItemException e){
+            throw e;
+        }
+
+    }
+
+//    @Test
+//    public void testCreateDuplicatedItems() throws Exception{
+//        var item1 = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
+//        var item2 = new Item(6, "Cookie", 10, 30, Item.Type.NORMAL);
+//        List<Item> items = new ArrayList<>();
+//        items.add(item1);
+//        items.add(item2);
+//
+//        try {
+//            itemService.createItems(items);
+//        } catch (DuplicatedFoundItemException e){
+//            throw e;
+//        }
+//
+//    }
 
 }
