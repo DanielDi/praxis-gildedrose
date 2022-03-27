@@ -441,7 +441,7 @@ public class ItemServiceTest {
      * WHEN createItems method is called
      * THEN the service should save all the items in the database
      */
-    public void testCreateItemsSuccess(){
+    public void testCreateItemsSuccess() {
 
         var item1 = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
         var item2 = new Item(6, "Ticket", 30, 20, Item.Type.LEGENDARY);
@@ -449,21 +449,24 @@ public class ItemServiceTest {
         itemsBD.add(item1);
         itemsBD.add(item2);
 
-        var item3 = new Item(7, "Batman forever", 5, 2, Item.Type.AGED);
-        var item4 = new Item(8, "The Batman", 3, 6, Item.Type.NORMAL);
+        var itemDifferent = new Item(8, "The Batman", 3, 6, Item.Type.TICKETS);
+        var itemWith1Difference = new Item(7, "Cookie", 10, 3, Item.Type.NORMAL);
+        var itemWith2Difference = new Item(7, "Cookie", 10, 30, Item.Type.AGED);
+        var itemWith3Difference = new Item(7, "Cookie", 5, 2, Item.Type.AGED);
+
         List<Item> itemsToInsert = new ArrayList<>();
-        itemsToInsert.add(item3);
-        itemsToInsert.add(item4);
+
+        itemsToInsert.add(itemDifferent);
+        itemsToInsert.add(itemWith1Difference);
+        itemsToInsert.add(itemWith2Difference);
+        itemsToInsert.add(itemWith3Difference);
+
 
         when(itemRepository.findAll()).thenReturn(itemsBD);
         when(itemRepository.saveAll(itemsToInsert)).thenReturn(itemsToInsert);
 
-        try {
-            List<Item> createdItems = itemService.createItems(itemsToInsert);
-            assertEquals(createdItems, itemsToInsert);
-        } catch (DuplicatedFoundItemException e){
-            throw e;
-        }
+        List<Item> createdItems = itemService.createItems(itemsToInsert);
+        assertEquals(createdItems, itemsToInsert);
     }
 
     @Test

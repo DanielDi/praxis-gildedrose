@@ -136,7 +136,7 @@ public class ItemService {
             Boolean duplicatedQuality = currentItem.quality == item.quality;
             Boolean duplicatedType = currentItem.type == item.type;
             if(duplicatedName && duplicatedSellIn && duplicatedQuality && duplicatedType){
-                throw new DuplicatedFoundItemException("");
+                    throw new DuplicatedFoundItemException("");
             }
         }
     }
