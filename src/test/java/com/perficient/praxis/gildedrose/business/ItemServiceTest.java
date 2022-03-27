@@ -192,6 +192,11 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid legendary type item in the database
+     * WHEN updateQuality method is called
+     * THEN the service don't should update the quality and sellIn values.
+     */
     public void testUpdateQualityOfLegendaryTypeItem() {
 
         var item = new Item(0, "Butter", 20, 30, Item.Type.LEGENDARY);
@@ -208,6 +213,11 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid legendary type item with SellIn less than 0 in the database
+     * WHEN updateQuality method is called
+     * THEN the service don't should update the quality and sellIn values.
+     */
     public void testUpdateQualityOfLegendaryTypeItemWithSellinLessThanZero() {
 
         var item = new Item(0, "Almonds", -1, 4, Item.Type.LEGENDARY);
@@ -223,6 +233,13 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid aged type item with sellIn less than 0 in the database
+     * WHEN updateQuality method is called
+     * THEN the service should update the quality and sellIn values,
+     * sellIn will be decreased by 1
+     * quality will be incremented by 2
+     */
     public void testUpdateQualityOfAgedTypeItemWithSellinLessThanZero() {
 
         var item = new Item(0, "Wine", -1, 0, Item.Type.AGED);
@@ -238,6 +255,12 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid aged type item with sellIn less than 0 and Quality equal to 50 in the database
+     * WHEN updateQuality method is called
+     * THEN the service should update the sellIn value,
+     * sellIn will be decreased by 1
+     */
     public void testUpdateQualityOfAgedTypeItemWithSellinLessThanZeroAndQualityFifty() {
 
         var item = new Item(0, "Beer", -1, 50, Item.Type.AGED);
@@ -253,6 +276,11 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid legendary type item with Quality equal to 0 in the database
+     * WHEN updateQuality method is called
+     * THEN the service don't should update the quality and sellIn values
+     */
     public void testUpdateQualityOfLegendaryTypeItemWithQualityEqualZero() {
 
         var item = new Item(0, "Water", -1, 0, Item.Type.LEGENDARY);
@@ -268,6 +296,12 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid normal type item with SellIn equal to 0 in the database
+     * WHEN updateQuality method is called
+     * THEN the service should update the quality and sellIn values,
+     * SellIn will be decreased by 1 and Quality by 2
+     */
     public void testUpdateQualityOfNormalTypeItemWithSellinEqualZero() {
 
         var item = new Item(0, "Eggs", 0, 30, Item.Type.NORMAL);
@@ -283,7 +317,14 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testUpdateQualityOfTicketTypeItemWithSellinEqualZero() {
+    /**
+     * GIVEN a valid tickets type item with sellIn equal to 0 in the database
+     * WHEN updateQuality method is called
+     * THEN the service should update the quality and sellIn values,
+     * sellIn will be decreased by 1
+     * quality will be updated to 0
+     */
+    public void testUpdateQualityOfTicketsTypeItemWithSellinEqualZero() {
 
         var item = new Item(0, "Don Tetto concert", 0, 30, Item.Type.TICKETS);
         when(itemRepository.findAll()).thenReturn(List.of(item));
