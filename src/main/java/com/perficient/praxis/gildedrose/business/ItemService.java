@@ -7,6 +7,7 @@ import com.perficient.praxis.gildedrose.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 
 import javax.swing.tree.ExpandVetoException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -80,39 +81,33 @@ public class ItemService {
         return Arrays.asList(items);
     }
 
-
     public Item createItem(Item item) {
-        return itemRepository.save(item);
+        List<Item> items = new ArrayList<>();
+        items.add(item);
+        try{
+            List<Item> currentItems = itemRepository.findAll();
+            checkDuplicatedItem(item, currentItems);
+            return itemRepository.save(item);
+        } catch (DuplicatedFoundItemException e){
+            throw e;
+        }
     }
 
-    public List<Item> createItems(List<Item> items)throws Exception{
-            try{
-                checkDuplicates(items);
-                return itemRepository.saveAll(items);
-            } catch (DuplicatedFoundItemException e){
-                throw e;
-            }
+    public List<Item> createItems(List<Item> items){
+        try{
+            checkDuplicatedItems(items);
+            return itemRepository.saveAll(items);
+        } catch (DuplicatedFoundItemException e){
+            throw e;
+        }
     }
 
-    public void checkDuplicates(List<Item> items) throws Exception{
+    public void checkDuplicatedItems(List<Item> items){
         List<Item> currentItems = itemRepository.findAll();
         for (Item item: items){
-            for (Item currentItem:currentItems){
-                Boolean duplicatedName = currentItem.name.equals(item.name);
-                Boolean duplicatedSellIn = currentItem.sellIn == item.sellIn;
-                Boolean duplicatedQuality = currentItem.quality == item.quality;
-                Boolean duplicatedType = currentItem.type == item.type;
-                System.out.println(currentItem);
-                System.out.println(item);
-                System.out.println(duplicatedName);
-                System.out.println(duplicatedSellIn);
-                System.out.println(duplicatedQuality);
-                System.out.println(duplicatedType);
-                if(duplicatedName && duplicatedSellIn && duplicatedQuality && duplicatedType){
-                    throw new DuplicatedFoundItemException("");
-                }
-            }
+            checkDuplicatedItem(item, currentItems);
             currentItems.add(item);
+            System.out.println("NEXT ITEM");
         }
     }
 
@@ -132,5 +127,25 @@ public class ItemService {
     public Item findById(int id) {
         return itemRepository.findById(id).orElseThrow(
                 ()-> new ResourceNotFoundException(""));
+    }
+
+    public void checkDuplicatedItem(Item item, List<Item> currentItems){
+
+        for (Item currentItem:currentItems){
+            Boolean duplicatedName = currentItem.name.equals(item.name);
+            Boolean duplicatedSellIn = currentItem.sellIn == item.sellIn;
+            Boolean duplicatedQuality = currentItem.quality == item.quality;
+            Boolean duplicatedType = currentItem.type == item.type;
+//                System.out.println("item: " + item);
+//                System.out.println("current item: " + currentItem);
+//                System.out.println(duplicatedName);
+//                System.out.println(duplicatedSellIn);
+//                System.out.println(duplicatedQuality);
+//                System.out.println(duplicatedType);
+            if(duplicatedName && duplicatedSellIn && duplicatedQuality && duplicatedType){
+//                    System.out.println("EXCEPCIÓN");
+                throw new DuplicatedFoundItemException("");
+            }
+        }
     }
 }

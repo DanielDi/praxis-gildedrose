@@ -341,11 +341,11 @@ public class ItemServiceTest {
 
     @Test
     /**
-     * GIVEN a item
+     * GIVEN a new item that doesn't exist in database
      * WHEN createItem method is called
      * THEN the service should save successfully the item in the database
      */
-    public void testCreateItem(){
+    public void testCreateItemSuccess(){
 
         var item = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
         when(itemRepository.save(any(Item.class))).thenReturn(item);
@@ -355,16 +355,31 @@ public class ItemServiceTest {
         assertEquals(item, createdItem);
     }
 
+//    @Test
+//    /**
+//     * GIVEN a new item that alredy exist in database
+//     * WHEN createItem method is called
+//     * THEN the service should throw an exception of duplicated item
+//     */
+//    public void testCreateDuplicatedItem(){
+//
+//        var item = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
+//        itemRepository.save(item);
+//        var itemToInsert = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
+//
+//        assertThrows(DuplicatedFoundItemException.class, () -> {itemService.createItem(itemToInsert);});
+//    }
+
     @Test
     /**
-     * GIVEN a batch of different items
+     * GIVEN a batch items with one or more different attributes
      * WHEN createItems method is called
      * THEN the service should save all the items in the database
      */
     public void testCreateItemsSuccess() throws Exception{
 
         var item1 = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
-        var item2 = new Item(6, "Flower", 8, 15, Item.Type.NORMAL);
+        var item2 = new Item(6, "Flower", 8, 15, Item.Type.AGED);
         List<Item> items = new ArrayList<>();
         items.add(item1);
         items.add(item2);
@@ -379,20 +394,20 @@ public class ItemServiceTest {
 
     }
 
-//    @Test
-//    public void testCreateDuplicatedItems() throws Exception{
-//        var item1 = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
-//        var item2 = new Item(6, "Cookie", 10, 30, Item.Type.NORMAL);
-//        List<Item> items = new ArrayList<>();
-//        items.add(item1);
-//        items.add(item2);
-//
-//        try {
-//            itemService.createItems(items);
-//        } catch (DuplicatedFoundItemException e){
-//            throw e;
-//        }
-//
-//    }
+    @Test
+    /**
+     * GIVEN a batch of items where one or more have equal attributes to another item in database
+     * WHEN createItems method is called
+     * THEN the service throws an exception of duplicated items
+     */
+    public void testCreateDuplicatedItems(){
+        var item1 = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
+        var item2 = new Item(6, "Cookie", 10, 30, Item.Type.NORMAL);
+        List<Item> items = new ArrayList<>();
+        items.add(item1);
+        items.add(item2);
+
+        assertThrows(DuplicatedFoundItemException.class, () -> {itemService.createItems(items);});
+    }
 
 }
