@@ -34,7 +34,7 @@ public class ItemServiceTest {
     /**
      * GIVEN the request to find a item with a id that doesn´t exist in the database
      * WHEN findById method is called
-     * THEN must be thrown a exception of item not found
+     * THEN must be thrown an exception of item not found
      */
     public void testGetItemByIdWhenItemWasNotFound() {
 
@@ -83,6 +83,11 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid normal type item with quality less than zero in the database
+     * WHEN updateQuality method is called
+     * THEN the service should update only sellIn values will be decreased by 1
+     */
     public void testUpdateQualityOfLessThanZeroQualityItem() {
 
         var item = new Item(0, "strawberry", 10, 0, Item.Type.NORMAL);
@@ -99,6 +104,13 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid aged type item in the database
+     * WHEN updateQuality method is called
+     * THEN the service should update the quality and sellIn values,
+     * sellIn will be decreased by 1
+     * quality will be incremented by 1
+     */
     public void testUpdateQualityOfAgedTypeItem() {
 
         var item = new Item(0, "Cheese", 2, 30, Item.Type.AGED);
@@ -114,6 +126,13 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid tickets type item in the database
+     * WHEN updateQuality method is called
+     * THEN the service should update the quality and sellIn values,
+     * sellIn will be decreased by 1
+     * quality will be incremented by 3 because SellIn is less than 5
+     */
     public void testUpdateQualityOfTicketsTypeItem() {
 
         var item = new Item(0,"movie ticket", 2, 47, Item.Type.TICKETS);
@@ -129,6 +148,13 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid tickets type item with high quality in the database
+     * WHEN updateQuality method is called
+     * THEN the service should update the quality and sellIn values,
+     * sellIn will be decreased by 1
+     * quality will be incremented by 1 because can't increments greater than 50
+     */
     public void testUpdateQualityOfTicketsTypeItemWithQualityGreaterThanFiftyForAdd() {
 
         var item = new Item(0,"shakira concert tickets", 2, 49, Item.Type.TICKETS);
@@ -144,24 +170,16 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testUpdateQualityOfTicketsTypeItemWithQualityGreaterThanFiftySinceStart() {
-
-        var item = new Item(0,"Saw III movie tickets", 15, 50, Item.Type.TICKETS);
-        when(itemRepository.findAll()).thenReturn(List.of(item));
-
-        List<Item> itemsUpdated = itemService.updateQuality();
-
-        assertEquals(0, itemsUpdated.get(0).getId());
-        assertEquals("Saw III movie tickets", itemsUpdated.get(0).name);
-        assertEquals(14, itemsUpdated.get(0).sellIn);
-        assertEquals(50, itemsUpdated.get(0).quality);
-        assertEquals(Item.Type.TICKETS, itemsUpdated.get(0).type);
-    }
-
-    @Test
+    /**
+     * GIVEN a valid tickets type item with SellIn greater eleven than in the database
+     * WHEN updateQuality method is called
+     * THEN the service should update the quality and sellIn values,
+     * sellIn will be decreased by 1
+     * quality will be incremented only by 1
+     */
     public void testUpdateQualityOfTicketsTypeItemWithSellInGreaterThanEleven() {
 
-        var item = new Item(0,"The Beatles concert tickets", 15, 49, Item.Type.TICKETS);
+        var item = new Item(0,"The Beatles concert tickets", 15, 47, Item.Type.TICKETS);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
         List<Item> itemsUpdated = itemService.updateQuality();
@@ -169,7 +187,7 @@ public class ItemServiceTest {
         assertEquals(0, itemsUpdated.get(0).getId());
         assertEquals("The Beatles concert tickets", itemsUpdated.get(0).name);
         assertEquals(14, itemsUpdated.get(0).sellIn);
-        assertEquals(50, itemsUpdated.get(0).quality);
+        assertEquals(48, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.TICKETS, itemsUpdated.get(0).type);
     }
 
