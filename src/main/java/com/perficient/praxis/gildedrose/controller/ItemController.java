@@ -43,7 +43,7 @@ public class ItemController {
     }
 
     @PostMapping("/createItems")
-    public ResponseEntity<List<Item>> createItems(@RequestBody List<Item> items) throws Exception{
+    public ResponseEntity<List<Item>> createItems(@RequestBody List<Item> items){
         List<Item> createdItems = itemService.createItems(items);
         return new ResponseEntity<>(createdItems, HttpStatus.CREATED);
     }

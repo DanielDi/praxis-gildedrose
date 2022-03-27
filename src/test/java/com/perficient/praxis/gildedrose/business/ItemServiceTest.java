@@ -355,20 +355,26 @@ public class ItemServiceTest {
         assertEquals(item, createdItem);
     }
 
-//    @Test
-//    /**
-//     * GIVEN a new item that alredy exist in database
-//     * WHEN createItem method is called
-//     * THEN the service should throw an exception of duplicated item
-//     */
-//    public void testCreateDuplicatedItem(){
-//
-//        var item = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
-//        itemRepository.save(item);
-//        var itemToInsert = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
-//
-//        assertThrows(DuplicatedFoundItemException.class, () -> {itemService.createItem(itemToInsert);});
-//    }
+    @Test
+    /**
+     * GIVEN a new item that alredy exist in database
+     * WHEN createItem method is called
+     * THEN the service should throw an exception of duplicated item
+     */
+    public void testCreateDuplicatedItem(){
+
+        var item1 = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
+        var item2 = new Item(6, "Ticket", 20, 15, Item.Type.LEGENDARY);
+        List<Item> itemsBD = new ArrayList<>();
+        itemsBD.add(item1);
+        itemsBD.add(item2);
+
+        var itemToInsert = new Item(7, "Cookie", 10, 30, Item.Type.NORMAL);
+
+        when(itemRepository.findAll()).thenReturn(itemsBD);
+
+        assertThrows(DuplicatedFoundItemException.class, () -> {itemService.createItem(itemToInsert);});
+    }
 
     @Test
     /**
@@ -376,7 +382,7 @@ public class ItemServiceTest {
      * WHEN createItems method is called
      * THEN the service should save all the items in the database
      */
-    public void testCreateItemsSuccess() throws Exception{
+    public void testCreateItemsSuccess(){
 
         var item1 = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
         var item2 = new Item(6, "Flower", 8, 15, Item.Type.AGED);
@@ -402,12 +408,20 @@ public class ItemServiceTest {
      */
     public void testCreateDuplicatedItems(){
         var item1 = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
-        var item2 = new Item(6, "Cookie", 10, 30, Item.Type.NORMAL);
-        List<Item> items = new ArrayList<>();
-        items.add(item1);
-        items.add(item2);
+        var item2 = new Item(6, "Ticket", 30, 20, Item.Type.LEGENDARY);
+        List<Item> itemsBD = new ArrayList<>();
+        itemsBD.add(item1);
+        itemsBD.add(item2);
 
-        assertThrows(DuplicatedFoundItemException.class, () -> {itemService.createItems(items);});
+        var item3 = new Item(7, "Cookie", 10, 30, Item.Type.NORMAL);
+        var item4 = new Item(8, "Cookie", 10, 30, Item.Type.NORMAL);
+        List<Item> itemsToInsert = new ArrayList<>();
+        itemsToInsert.add(item3);
+        itemsToInsert.add(item4);
+
+        when(itemRepository.findAll()).thenReturn(itemsBD);
+
+        assertThrows(DuplicatedFoundItemException.class, () -> {itemService.createItems(itemsToInsert);});
     }
 
 }

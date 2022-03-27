@@ -82,8 +82,7 @@ public class ItemService {
     }
 
     public Item createItem(Item item) {
-        List<Item> items = new ArrayList<>();
-        items.add(item);
+
         try{
             List<Item> currentItems = itemRepository.findAll();
             checkDuplicatedItem(item, currentItems);
@@ -91,6 +90,7 @@ public class ItemService {
         } catch (DuplicatedFoundItemException e){
             throw e;
         }
+
     }
 
     public List<Item> createItems(List<Item> items){
@@ -107,7 +107,6 @@ public class ItemService {
         for (Item item: items){
             checkDuplicatedItem(item, currentItems);
             currentItems.add(item);
-            System.out.println("NEXT ITEM");
         }
     }
 
@@ -136,14 +135,7 @@ public class ItemService {
             Boolean duplicatedSellIn = currentItem.sellIn == item.sellIn;
             Boolean duplicatedQuality = currentItem.quality == item.quality;
             Boolean duplicatedType = currentItem.type == item.type;
-//                System.out.println("item: " + item);
-//                System.out.println("current item: " + currentItem);
-//                System.out.println(duplicatedName);
-//                System.out.println(duplicatedSellIn);
-//                System.out.println(duplicatedQuality);
-//                System.out.println(duplicatedType);
             if(duplicatedName && duplicatedSellIn && duplicatedQuality && duplicatedType){
-//                    System.out.println("EXCEPCIÓN");
                 throw new DuplicatedFoundItemException("");
             }
         }
