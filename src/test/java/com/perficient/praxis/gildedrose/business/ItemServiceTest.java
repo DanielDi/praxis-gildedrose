@@ -385,19 +385,26 @@ public class ItemServiceTest {
     public void testCreateItemsSuccess(){
 
         var item1 = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
-        var item2 = new Item(6, "Flower", 8, 15, Item.Type.AGED);
-        List<Item> items = new ArrayList<>();
-        items.add(item1);
-        items.add(item2);
-        when(itemRepository.saveAll(items)).thenReturn(items);
+        var item2 = new Item(6, "Ticket", 30, 20, Item.Type.LEGENDARY);
+        List<Item> itemsBD = new ArrayList<>();
+        itemsBD.add(item1);
+        itemsBD.add(item2);
+
+        var item3 = new Item(7, "Batman forever", 5, 2, Item.Type.AGED);
+        var item4 = new Item(8, "The Batman", 3, 6, Item.Type.NORMAL);
+        List<Item> itemsToInsert = new ArrayList<>();
+        itemsToInsert.add(item3);
+        itemsToInsert.add(item4);
+
+        when(itemRepository.findAll()).thenReturn(itemsBD);
+        when(itemRepository.saveAll(itemsToInsert)).thenReturn(itemsToInsert);
 
         try {
-            List<Item> createdItems = itemService.createItems(items);
-            assertEquals(createdItems, items);
+            List<Item> createdItems = itemService.createItems(itemsToInsert);
+            assertEquals(createdItems, itemsToInsert);
         } catch (DuplicatedFoundItemException e){
             throw e;
         }
-
     }
 
     @Test
