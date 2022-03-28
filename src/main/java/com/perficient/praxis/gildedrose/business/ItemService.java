@@ -6,8 +6,6 @@ import com.perficient.praxis.gildedrose.model.Item;
 import com.perficient.praxis.gildedrose.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 
-import javax.swing.tree.ExpandVetoException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -83,60 +81,60 @@ public class ItemService {
 
     public Item createItem(Item item) {
 
-        try{
+        try {
             List<Item> currentItems = itemRepository.findAll();
-            checkDuplicatedItem(item, currentItems);
+            isDuplicatedItem(item, currentItems);
             return itemRepository.save(item);
-        } catch (DuplicatedFoundItemException e){
+        } catch (DuplicatedFoundItemException e) {
             throw e;
         }
 
     }
 
-    public List<Item> createItems(List<Item> items){
-        try{
+    public List<Item> createItems(List<Item> items) {
+        try {
             checkDuplicatedItems(items);
             return itemRepository.saveAll(items);
-        } catch (DuplicatedFoundItemException e){
+        } catch (DuplicatedFoundItemException e) {
             throw e;
         }
     }
 
-    public void checkDuplicatedItems(List<Item> items){
+    public void checkDuplicatedItems(List<Item> items) {
         List<Item> currentItems = itemRepository.findAll();
-        for (Item item: items){
-            checkDuplicatedItem(item, currentItems);
+        for (Item item : items) {
+            isDuplicatedItem(item, currentItems);
             currentItems.add(item);
         }
     }
 
     public Item updateItem(int id, Item item) {
-        try{
+        try {
             findById(id);
             return itemRepository.save(new Item(id, item.name, item.sellIn, item.quality, item.type));
-        }catch(ResourceNotFoundException e) {
+        } catch (ResourceNotFoundException e) {
             throw e;
         }
     }
 
-    public List<Item> listItems(){
+    public List<Item> listItems() {
         return itemRepository.findAll();
     }
 
     public Item findById(int id) {
         return itemRepository.findById(id).orElseThrow(
-                ()-> new ResourceNotFoundException(""));
+                () -> new ResourceNotFoundException("The item with the id " + id + " was not found"));
     }
 
-    public void checkDuplicatedItem(Item item, List<Item> currentItems){
+    public void isDuplicatedItem(Item item, List<Item> currentItems) {
 
-        for (Item currentItem:currentItems){
-            Boolean duplicatedName = currentItem.name.equals(item.name);
-            Boolean duplicatedSellIn = currentItem.sellIn == item.sellIn;
-            Boolean duplicatedQuality = currentItem.quality == item.quality;
-            Boolean duplicatedType = currentItem.type == item.type;
-            if(duplicatedName && duplicatedSellIn && duplicatedQuality && duplicatedType){
-                    throw new DuplicatedFoundItemException("");
+        for (Item currentItem : currentItems) {
+            Boolean isDuplicatedName = currentItem.name.equals(item.name);
+            Boolean isDuplicatedSellIn = currentItem.sellIn == item.sellIn;
+            Boolean isDuplicatedQuality = currentItem.quality == item.quality;
+            Boolean isDuplicatedType = currentItem.type == item.type;
+            if (isDuplicatedName && isDuplicatedSellIn && isDuplicatedQuality && isDuplicatedType) {
+                throw new DuplicatedFoundItemException("An item with the inserted attributes already exists. ");
             }
         }
     }
