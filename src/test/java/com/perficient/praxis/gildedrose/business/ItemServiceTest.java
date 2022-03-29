@@ -135,15 +135,15 @@ public class ItemServiceTest {
      */
     public void testUpdateQualityOfTicketsTypeItem() {
 
-        var item = new Item(0,"movie ticket", 2, 47, Item.Type.TICKETS);
+        var item = new Item(0,"movie ticket", 7, 47, Item.Type.TICKETS);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
         List<Item> itemsUpdated = itemService.updateQuality();
 
         assertEquals(0, itemsUpdated.get(0).getId());
         assertEquals("movie ticket", itemsUpdated.get(0).name);
-        assertEquals(1, itemsUpdated.get(0).sellIn);
-        assertEquals(50, itemsUpdated.get(0).quality);
+        assertEquals(6, itemsUpdated.get(0).sellIn);
+        assertEquals(49, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.TICKETS, itemsUpdated.get(0).type);
     }
 
@@ -460,7 +460,6 @@ public class ItemServiceTest {
         itemsToInsert.add(itemWith1Difference);
         itemsToInsert.add(itemWith2Difference);
         itemsToInsert.add(itemWith3Difference);
-
 
         when(itemRepository.findAll()).thenReturn(itemsBD);
         when(itemRepository.saveAll(itemsToInsert)).thenReturn(itemsToInsert);

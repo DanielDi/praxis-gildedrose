@@ -21,62 +21,101 @@ public class ItemService {
         this.items = items;
     }
 
+    //TODO
+    // Create an abstract item class
+    // according type, create a specific class
+    // redefine the method UpdateQuality in each specific class
+    // this idea is for prevent the Switch
+
     public List<Item> updateQuality() {
         var itemsList = itemRepository.findAll();
         var items = itemsList.toArray(new Item[itemsList.size()]);
 
         for (int i = 0; i < items.length; i++) {
-            if (!items[i].type.equals(Item.Type.AGED)
-                    && !items[i].type.equals(Item.Type.TICKETS)) {
-                if (items[i].quality > 0) {
-                    if (!items[i].type.equals(Item.Type.LEGENDARY)) {
-                        items[i].quality = items[i].quality - 1;
-                    }
-                }
-            } else {
-                if (items[i].quality < 50) {
-                    items[i].quality = items[i].quality + 1;
-
-                    if (items[i].type.equals(Item.Type.TICKETS)) {
-                        if (items[i].sellIn < 11) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
-
-                        if (items[i].sellIn < 6) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (!items[i].type.equals(Item.Type.LEGENDARY)) {
-                items[i].sellIn = items[i].sellIn - 1;
-            }
-
-            if (items[i].sellIn < 0) {
-                if (!items[i].type.equals(Item.Type.AGED)) {
-                    if (!items[i].type.equals(Item.Type.TICKETS)) {
-                        if (items[i].quality > 0) {
-                            if (!items[i].type.equals(Item.Type.LEGENDARY)) {
-                                items[i].quality = items[i].quality - 1;
-                            }
-                        }
-                    } else {
-                        items[i].quality = items[i].quality - items[i].quality;
-                    }
-                } else {
-                    if (items[i].quality < 50) {
-                        items[i].quality = items[i].quality + 1;
-                    }
-                }
+            switch (items[i].type) {
+                case NORMAL:
+                    updateQualityNormalTypeItem(items[i]);
+                    break;
+                case AGED:
+                    updateQualityAgedTypeItem(items[i]);
+                    break;
+                case TICKETS:
+                    updateQualityTicketsTypeItem(items[i]);
+                    break;
+                case LEGENDARY:
+                    updateQualityLegendaryTypeItem(items[i]);
+                    break;
+                default:
+                    throw new ResourceNotFoundException("type: " + items[i].type + " is not found");
             }
             itemRepository.save(items[i]);
         }
         return Arrays.asList(items);
+    }
+
+    public Item reduceQuality(Item item) {
+        if (item.quality > 0) {
+            item.quality -= 1;
+        }
+        return item;
+    }
+
+    public Item reduceSellIn(Item item) {
+        item.sellIn -= 1;
+        return item;
+    }
+
+    public Item increaseQuality(Item item) {
+        if (item.quality < 50) {
+            item.quality += 1;
+        }
+        return item;
+    }
+
+    public Item updateQualityNormalTypeItem(Item item) {
+        reduceQuality(item);
+        reduceSellIn(item);
+
+        // reduce the quality one more time when SellIn is 0 or less
+        if (item.sellIn < 0) {
+            reduceQuality(item);
+        }
+        return item;
+    }
+
+    public Item updateQualityAgedTypeItem(Item item) {
+        increaseQuality(item);
+        reduceSellIn(item);
+
+        // increase the quality one more time when SellIn is 0 or less
+        if (item.sellIn < 0) {
+            increaseQuality(item);
+        }
+        return item;
+    }
+
+    public Item updateQualityTicketsTypeItem(Item item) {
+
+        increaseQuality(item);
+
+        if (item.sellIn <= 5) {
+            increaseQuality(item);
+            increaseQuality(item);
+        } else if (item.sellIn <= 10) {
+            increaseQuality(item);
+        }
+
+        reduceSellIn(item);
+
+        if (item.sellIn < 0) {
+            item.quality = 0;
+        }
+
+        return item;
+    }
+
+    public Item updateQualityLegendaryTypeItem(Item item) {
+        return item;
     }
 
     public Item createItem(Item item) {
