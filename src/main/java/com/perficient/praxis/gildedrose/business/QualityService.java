@@ -16,6 +16,16 @@ public class QualityService {
 
     Item[] items;
 
+    public Integer minimumQuality = 0;
+
+    public Integer maximumQuality = 50;
+
+    public Integer sellInDatePassed = 0;
+
+    public Integer sellInDateNear = 5;
+
+    public Integer sellInDateVeryNear = 10;
+
     public QualityService(ItemRepository itemRepository, Item[] items) {
         this.itemRepository = itemRepository;
         this.items = items;
@@ -46,7 +56,7 @@ public class QualityService {
     }
 
     public Item reduceQuality(Item item) {
-        if (item.quality > 0) {
+        if (item.quality > minimumQuality) {
             item.quality -= 1;
         }
         return item;
@@ -58,7 +68,7 @@ public class QualityService {
     }
 
     public Item increaseQuality(Item item) {
-        if (item.quality < 50) {
+        if (item.quality < maximumQuality) {
             item.quality += 1;
         }
         return item;
@@ -80,7 +90,7 @@ public class QualityService {
         item = reduceSellIn(item);
 
         // increase the quality one more time when SellIn is 0 or less
-        if (item.sellIn < 0) {
+        if (item.sellIn < sellInDatePassed) {
             item = increaseQuality(item);
         }
         return item;
@@ -91,16 +101,16 @@ public class QualityService {
         increaseQuality(item);
 
         // increases the item quality based on SellIn
-        if (item.sellIn <= 5) {
+        if (item.sellIn <= sellInDateNear) {
             increaseQuality(item);
             increaseQuality(item);
-        } else if (item.sellIn <= 10) {
+        } else if (item.sellIn <= sellInDateVeryNear) {
             increaseQuality(item);
         }
 
         reduceSellIn(item);
 
-        if (item.sellIn < 0) {
+        if (item.sellIn < sellInDatePassed) {
             item.quality = 0;
         }
 
