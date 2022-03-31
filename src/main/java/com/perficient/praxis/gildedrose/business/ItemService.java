@@ -70,8 +70,7 @@ public class ItemService {
     }
 
     public List<Item> listItems() {
-        List<Item> currentItems = itemRepository.findAll();
-        return currentItems;
+        return itemRepository.findAll();
     }
 
     public Item findById(int id) {

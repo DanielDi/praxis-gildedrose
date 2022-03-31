@@ -32,20 +32,6 @@ public class ItemServiceTest {
 
     @Test
     /**
-     * GIVEN the request to find an item with an id that doesn´t exist in the database
-     * WHEN findById method is called
-     * THEN must be thrown an exception to item not found
-     */
-    public void testGetItemByIdWhenItemWasNotFound() {
-
-        when(itemRepository.findById(anyInt())).thenReturn(Optional.empty());
-
-        assertThrows(ResourceNotFoundException.class, () ->
-                itemService.findById(0));
-    }
-
-    @Test
-    /**
      * GIVEN the request to find an item with an id that exists in the database
      * WHEN findById method is called
      * THEN the service should return the item with that id
@@ -62,19 +48,16 @@ public class ItemServiceTest {
 
     @Test
     /**
-     * GIVEN the request to update any attribute of a nonexistent object in the database
-     * WHEN updateItem method is called
-     * THEN should be thrown an item not found exception
+     * GIVEN the request to find an item with an id that doesn´t exist in the database
+     * WHEN findById method is called
+     * THEN must be thrown an exception to item not found
      */
-    public void testUpdateItemByIdWhenItemWasNotFound() {
-
-        var item = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
-        itemRepository.save(item);
+    public void testGetItemByIdWhenItemWasNotFound() {
 
         when(itemRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class, () ->
-                itemService.updateItem(6, item));
+                itemService.findById(0));
     }
 
     @Test
@@ -97,6 +80,23 @@ public class ItemServiceTest {
         assertEquals(9, updatedItem.sellIn);
         assertEquals(32, updatedItem.quality);
         assertEquals(Item.Type.NORMAL,updatedItem.type);
+    }
+
+    @Test
+    /**
+     * GIVEN the request to update any attribute of a nonexistent object in the database
+     * WHEN updateItem method is called
+     * THEN should be thrown an item not found exception
+     */
+    public void testUpdateItemByIdWhenItemWasNotFound() {
+
+        var item = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
+        itemRepository.save(item);
+
+        when(itemRepository.findById(anyInt())).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () ->
+                itemService.updateItem(6, item));
     }
 
     @Test
@@ -135,26 +135,6 @@ public class ItemServiceTest {
         assertEquals(item, createdItem);
     }
 
-    @Test
-    /**
-     * GIVEN a new item that alredy exist in database
-     * WHEN createItem method is called
-     * THEN the service should throw an exception of duplicated item
-     */
-    public void testCreateDuplicatedItem(){
-
-        var item1 = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
-        var item2 = new Item(6, "Ticket", 20, 15, Item.Type.LEGENDARY);
-        List<Item> itemsBD = new ArrayList<>();
-        itemsBD.add(item1);
-        itemsBD.add(item2);
-
-        var itemToInsert = new Item(7, "Cookie", 10, 30, Item.Type.NORMAL);
-
-        when(itemRepository.findAll()).thenReturn(itemsBD);
-
-        assertThrows(DuplicatedFoundItemException.class, () -> {itemService.createItem(itemToInsert);});
-    }
 
     @Test
     /**
@@ -187,6 +167,27 @@ public class ItemServiceTest {
 
         List<Item> createdItems = itemService.createItems(itemsToInsert);
         assertEquals(createdItems, itemsToInsert);
+    }
+
+    @Test
+    /**
+     * GIVEN a new item that already exist in database
+     * WHEN createItem method is called
+     * THEN the service should throw an exception of duplicated item
+     */
+    public void testCreateDuplicatedItem(){
+
+        var item1 = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
+        var item2 = new Item(6, "Ticket", 20, 15, Item.Type.LEGENDARY);
+        List<Item> itemsBD = new ArrayList<>();
+        itemsBD.add(item1);
+        itemsBD.add(item2);
+
+        var itemToInsert = new Item(7, "Cookie", 10, 30, Item.Type.NORMAL);
+
+        when(itemRepository.findAll()).thenReturn(itemsBD);
+
+        assertThrows(DuplicatedFoundItemException.class, () -> {itemService.createItem(itemToInsert);});
     }
 
     @Test
