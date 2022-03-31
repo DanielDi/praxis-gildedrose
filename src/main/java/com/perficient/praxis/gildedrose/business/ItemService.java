@@ -6,7 +6,6 @@ import com.perficient.praxis.gildedrose.model.Item;
 import com.perficient.praxis.gildedrose.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -33,7 +32,8 @@ public class ItemService {
         try {
             List<Item> currentItems = itemRepository.findAll();
             isDuplicatedItem(item, currentItems);
-            return itemRepository.save(item);
+            Item createdItem = itemRepository.save(item);
+            return createdItem;
         } catch (DuplicatedFoundItemException e) {
             throw e;
         }
@@ -43,7 +43,8 @@ public class ItemService {
     public List<Item> createItems(List<Item> items) {
         try {
             checkDuplicatedItems(items);
-            return itemRepository.saveAll(items);
+            List<Item> savedItems = itemRepository.saveAll(items);
+            return savedItems;
         } catch (DuplicatedFoundItemException e) {
             throw e;
         }
@@ -60,14 +61,17 @@ public class ItemService {
     public Item updateItem(int id, Item item) {
         try {
             findById(id);
-            return itemRepository.save(new Item(id, item.name, item.sellIn, item.quality, item.type));
+            Item itemToUpdate = new Item(id, item.name, item.sellIn, item.quality, item.type);
+            Item updatedItem = itemRepository.save(itemToUpdate);
+            return updatedItem;
         } catch (ResourceNotFoundException e) {
             throw e;
         }
     }
 
     public List<Item> listItems() {
-        return itemRepository.findAll();
+        List<Item> currentItems = itemRepository.findAll();
+        return currentItems;
     }
 
     public Item findById(int id) {
@@ -75,6 +79,8 @@ public class ItemService {
                 () -> new ResourceNotFoundException("The item with the id " + id + " was not found"));
     }
 
+    //Check if a given item has the same attributes of any
+    //item in the database, except for the id.
     public void isDuplicatedItem(Item item, List<Item> currentItems) {
 
         for (Item currentItem : currentItems) {
@@ -84,9 +90,13 @@ public class ItemService {
             Boolean isDuplicatedQuality = currentItem.quality == item.quality;
             Boolean isDuplicatedType = currentItem.type == item.type;
 
-            if (isDuplicatedName && isDuplicatedSellIn && isDuplicatedQuality && isDuplicatedType) {
+            if (isAllDuplicated(isDuplicatedName, isDuplicatedSellIn, isDuplicatedQuality, isDuplicatedType)) {
                 throw new DuplicatedFoundItemException("An item with the inserted attributes already exists. ");
             }
         }
+    }
+
+    private boolean isAllDuplicated(Boolean isDuplicatedName, Boolean isDuplicatedSellIn, Boolean isDuplicatedQuality, Boolean isDuplicatedType) {
+        return isDuplicatedName && isDuplicatedSellIn && isDuplicatedQuality && isDuplicatedType;
     }
 }
