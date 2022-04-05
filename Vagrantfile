@@ -24,6 +24,12 @@ Vagrant.configure("2") do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
   config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "praxis"
+  end
+
+  # install docker...
+  config.vm.provision :docker
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
@@ -63,9 +69,16 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
+  # || exit $?
   config.vm.provision "shell", inline: <<-SHELL
-    apt-get update
-    echo "\n----- Installing Apache and Java 8 ------\n"
-    apt-get -y install openjdk-8-jdk
+    sudo apt-get update
+    echo "\n----- Installing Apache and Java 17 ------\n"
+    sudo -E apt-get -y install openjdk-17-jdk
+
+    echo "\n----- Installing Maven ------\n"
+    sudo wget https://dlcdn.apache.org/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz
+    tar -xvf apache-maven-3.8.5-bin.tar.gz
+    sudo mv apache-maven-3.8.5 /usr/lib/
+
   SHELL
 end
