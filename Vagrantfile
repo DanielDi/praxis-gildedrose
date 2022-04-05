@@ -91,5 +91,15 @@ Vagrant.configure("2") do |config|
     export MAVEN_HOME=/usr/lib/apache-maven-3.8.5
     export PATH=${M2_HOME}/bin:${PATH}
 
+    echo "\n----- Cloning repository of project ------\n"
+    git clone https://github.com/DanielDi/praxis-gildedrose.git
+    cd praxis-gildedrose
+
+    echo "\n----- Run docker postgres ------\n"
+    sudo docker run --name my-postgres -e POSTGRES_PASSWORD=secret -p 5433:5432 -d postgres
+
+    echo "\n----- Run Springboot project------\n"
+    ./mvn spring-boot:run
+    
   SHELL
 end
