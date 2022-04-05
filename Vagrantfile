@@ -79,6 +79,17 @@ Vagrant.configure("2") do |config|
     sudo wget https://dlcdn.apache.org/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz
     tar -xvf apache-maven-3.8.5-bin.tar.gz
     sudo mv apache-maven-3.8.5 /usr/lib/
+    
+    
+    echo "\n----- Setting JAVA_HOME environment variable ------\n"
+    export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
+    export PATHADD=$JAVA_HOME/bin
+    export PATH=$PATH:$PATHADD
+
+    echo "\n----- Setting MAVEN_HOME environment variable ------\n"
+    export M2_HOME=/usr/lib/apache-maven-3.8.5
+    export MAVEN_HOME=/usr/lib/apache-maven-3.8.5
+    export PATH=${M2_HOME}/bin:${PATH}
 
   SHELL
 end
