@@ -23,13 +23,7 @@ Vagrant.configure("2") do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
-  config.vm.network "forwarded_port", guest: 80, host: 8080
-  config.vm.provider "virtualbox" do |vb|
-    vb.name = "praxis"
-  end
-
-  # install docker...
-  config.vm.provision :docker
+  config.vm.network "forwarded_port", guest: 8080, host: 8090
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
@@ -69,37 +63,12 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  # || exit $?
+  config.vm.provision "shell", path: "settings.sh"
+  config.vm.provision :docker
+  config.vm.provision "shell", path: "run-project.sh"
   config.vm.provision "shell", inline: <<-SHELL
-    sudo apt-get update
-    echo "\n----- Installing Apache and Java 17 ------\n"
-    sudo -E apt-get -y install openjdk-17-jdk
-
-    echo "\n----- Installing Maven ------\n"
-    sudo wget https://dlcdn.apache.org/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz
-    tar -xvf apache-maven-3.8.5-bin.tar.gz
-    sudo mv apache-maven-3.8.5 /usr/lib/
-    
-    
-    echo "\n----- Setting JAVA_HOME environment variable ------\n"
-    export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
-    export PATHADD=$JAVA_HOME/bin
-    export PATH=$PATH:$PATHADD
-
-    echo "\n----- Setting MAVEN_HOME environment variable ------\n"
-    export M2_HOME=/usr/lib/apache-maven-3.8.5
-    export MAVEN_HOME=/usr/lib/apache-maven-3.8.5
-    export PATH=${M2_HOME}/bin:${PATH}
-
-    echo "\n----- Cloning repository of project ------\n"
-    git clone https://github.com/DanielDi/praxis-gildedrose.git
-    cd praxis-gildedrose
-
-    echo "\n----- Run docker postgres ------\n"
-    sudo docker run --name my-postgres -e POSTGRES_PASSWORD=secret -p 5433:5432 -d postgres
-
-    echo "\n----- Run Springboot project------\n"
-    ./mvn spring-boot:run
-    
+      echo '------- Run project ----------'
+      cd /home/vagrant/praxis-gildedrose
+      sudo mvn spring-boot:run
   SHELL
 end
