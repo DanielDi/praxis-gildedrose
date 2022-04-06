@@ -63,12 +63,39 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", path: "settings.sh"
-  config.vm.provision :docker
-  config.vm.provision "shell", path: "run-project.sh"
-  config.vm.provision "shell", inline: <<-SHELL
+    config.vm.provision "shell", inline: <<-SHELL
+      sudo apt-get update
+
+      echo "----- Installing Apache and Java 17 ------"
+      mkdir -p /usr/share/man/man1
+      sudo apt-get -y install openjdk-17-jdk
+
+      export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
+      export PATHADD=$JAVA_HOME/bin
+      export PATH=$PATH:$PATHADD
+
+      echo "----- Installing Maven------"
+      wget https://dlcdn.apache.org/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz
+      tar -xvf apache-maven-3.8.5-bin.tar.gz
+      sudo mv apache-maven-3.8.5 /usr/lib/
+
+      export M2_HOME=/usr/lib/apache-maven-3.8.5
+      export MAVEN_HOME=/usr/lib/apache-maven-3.8.5
+      export PATH=${M2_HOME}/bin:${PATH}
+
+      sudo apt-get install -y docker.io
+
+      echo '------- Starting postgrest with Docker ----------'
+      sudo docker run --name my-postgres -e POSTGRES_PASSWORD=secret -p 5433:5432 -d postgres
+
+      echo '------- Cloning project ----------'
+      git clone https://github.com/DanielDi/praxis-gildedrose.git
+
       echo '------- Run project ----------'
       cd /home/vagrant/praxis-gildedrose
-      sudo mvn spring-boot:run
-  SHELL
+      mvn spring-boot:run
+    SHELL
+#   config.vm.provision "shell", path: "settings.sh"
+#   config.vm.provision :docker
+#   config.vm.provision "shell", path: "run-project.sh"
 end
