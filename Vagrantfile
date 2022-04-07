@@ -111,8 +111,9 @@ Vagrant.configure("2") do |config|
       echo '------- Project cloned ----------'
 
       echo '------- Run project ----------'
+      sudo pkill postgres
       cd /home/vagrant/praxis-gildedrose
-      mvn spring-boot:run
+      mvn spring-boot:run &
     SHELL
 #   config.vm.provision "shell", path: "settings.sh"
 #   config.vm.provision :docker
