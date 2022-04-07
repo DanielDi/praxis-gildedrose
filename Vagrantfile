@@ -68,7 +68,7 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
     config.vm.provision "shell", :run => 'always', inline: <<-SHELL
       sudo apt-get update
-      if [[ ! "/usr/lib/jvm/java-1.17.0-openjdk-amd64" ]]
+      if [[ ! -d "/usr/lib/jvm/java-1.17.0-openjdk-amd64" ]]
       then
         echo "----- Installing Apache and Java 17 ------"
         mkdir -p /usr/share/man/man1
