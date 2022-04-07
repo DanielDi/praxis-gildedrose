@@ -95,13 +95,14 @@ Vagrant.configure("2") do |config|
 
       sudo apt-get install -y docker.io
 
-      if [ ! [$(docker ps | grep my-postgres)] ]
+      if ! [[ $( docker ps -a | grep my-postgres | wc -l ) -gt 0 ]]
       then
         echo '------- Creating postgrest with Docker ----------'
-        sudo docker create --name my-postgres -e POSTGRES_PASSWORD=secret -p 5433:5432 -d postgres
+        sudo docker run --name my-postgres -e POSTGRES_PASSWORD=secret -p 5433:5432 -d postgres
+      else
+        echo '------- Starting postgrest with Docker ----------'
+        sudo docker start my-postgres
       fi
-      echo '------- Starting postgrest with Docker ----------'
-      sudo docker start my-postgres
 
       if [[ ! -d "/home/vagrant/praxis-gildedrose" ]]
       then
@@ -114,8 +115,6 @@ Vagrant.configure("2") do |config|
       sudo pkill postgres
       cd /home/vagrant/praxis-gildedrose
       mvn spring-boot:run &
+      echo '------- Running project ----------'
     SHELL
-#   config.vm.provision "shell", path: "settings.sh"
-#   config.vm.provision :docker
-#   config.vm.provision "shell", path: "run-project.sh"
 end
