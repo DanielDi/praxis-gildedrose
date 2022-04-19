@@ -25,7 +25,7 @@ public class QualityServiceTest {
     @Autowired
     private QualityService qualityService;
 
-    @Test
+//    @Test
     /**
      * GIVEN a valid aged type item in the database
      * WHEN updateQuality method is called
@@ -33,14 +33,14 @@ public class QualityServiceTest {
      * sellIn will be decreased by 1
      * quality will be incremented by 1
      */
-    public void testUpdateQualityOfNullTypeItem() {
-
-        var item = new Item(0, "Cheese", 2, 30, null);
-        when(itemRepository.findAll()).thenReturn(List.of(item));
-
-        assertThrows(ResourceNotFoundException.class, () -> {qualityService.updateQuality();});
-
-    }
+//    public void testUpdateQualityOfNullTypeItem() {
+//
+//        var item = new Item(0, "Cheese", 2, 30, null);
+//        when(itemRepository.findAll()).thenReturn(List.of(item));
+//
+//        assertThrows(ResourceNotFoundException.class, () -> {qualityService.updateQuality();});
+//
+//    }
 
     @Test
     /**

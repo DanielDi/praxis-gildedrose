@@ -214,4 +214,33 @@ public class ItemServiceTest {
         assertThrows(DuplicatedFoundItemException.class, () -> {itemService.createItems(itemsToInsert);});
     }
 
+    @Test
+    /**
+     * GIVEN an item existing int the database
+     * WHEN deleteItem method is called
+     * THEN the itemService must delete and return the item found by its id
+     */
+    public void testDeleteExistingItem(){
+        var itemToDelete = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
+
+        when(itemRepository.findById(anyInt())).thenReturn(Optional.of(itemToDelete));
+
+        Item deletedItem = itemService.deleteItem(itemToDelete.getId());
+
+        assertEquals(deletedItem, itemToDelete);
+    }
+
+    @Test
+    /**
+     * GIVEN a nonexistent item in the database
+     * WHEN deleteItem method is call
+     * THEN the itemService must throws a ResourceNotFoundException
+     */
+    public void testDeleteNonexistentItem(){
+
+        when(itemRepository.findById(anyInt())).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () ->
+                itemService.deleteItem(6));
+    }
 }
