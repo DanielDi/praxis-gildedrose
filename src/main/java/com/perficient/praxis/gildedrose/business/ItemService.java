@@ -58,6 +58,16 @@ public class ItemService {
         }
     }
 
+    public Item deleteItem(int id) {
+        try {
+            Item item = findById(id);
+            itemRepository.delete(item);
+            return item;
+        } catch (ResourceNotFoundException e) {
+            throw e;
+        }
+    }
+
     public Item updateItem(int id, Item item) {
         try {
             findById(id);
