@@ -1,0 +1,18 @@
+Step to step:
+1. Create a network in docker :
+    ''' docker network create --subnet=172.20.0.0/16 my-net '''
+2. Run the postgres database :
+    ''' docker run --name my-postgres --network="my-net" --ip 172.20.0.2 -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres '''
+3. Locate in the root of the praxis-gildedrose project
+4. Check that the Dockerfile is created
+5. Build an image :
+    ''' docker build -t backend . '''
+6. Run the container :
+    ''' docker run --name backend --network="my-net" --ip 172.20.0.3 -p 8080:8080 -d backend '''
+7. Make sure the project is running and executing the spring-boot application (wait for it to finish)
+
+
+Notes:
+* Delete a image with ''' docker rmi backend '''
+* In praxis-gilderose was changed the application.properties.json for the new route to database
+* For delete your network ''' docker network rm my-net '''
