@@ -5,12 +5,16 @@ Step to step:
     ''' docker run --name my-postgres --network="my-net" --ip 122.22.0.2 -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres '''
 3. Locate in the root of the praxis-gildedrose project
 4. Check that the Dockerfile is created
-5. Build an image :
+5. Build an back-end image :
     ''' docker build -t backend . '''
 6. Run the container :
-    ''' docker run --name backend --network="my-net" --ip 122.22.0.22 -p 8080:8080 -d backend '''
+    ''' docker run --name back-end --network="my-net" --ip 122.22.0.22 -p 8080:8080 -d backend '''
 7. Make sure the project is running and executing the spring-boot application (wait for it to finish)
-
+8. Go to a PRAXIS-FE (Front)
+9. Build an front-end image :
+    '' docker build -t front . '''
+10.Run the container :
+    ''' docker run --name font-end --network="my-net" --ip 122.22.0.32 -p 4200:4200 -d front '''
 
 Notes:
 * Delete a image with ''' docker rmi backend '''
