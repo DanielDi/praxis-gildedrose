@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Removing images and network'){
             steps {
-            sh 'docker rm --force postgres'
+            sh 'docker rm --force my-postgres'
             sh 'docker network rm my-net'
             }
         }
