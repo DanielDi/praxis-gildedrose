@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Build Back') {
             steps {
-                echo 'Building..'
+                sh ' docker build -t backend . '
             }
         }
         stage('Test Back') {
