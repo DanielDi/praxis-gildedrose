@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     stages {
-        stage('Build Back') {
+        stage('Build Back Database') {
             steps {
-                echo 'Building..'
+                sh 'docker run --name my-postgres --network="my-net" --ip 122.22.0.2 -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres '
             }
         }
         stage('Test Back') {
