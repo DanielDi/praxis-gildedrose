@@ -2,6 +2,11 @@ pipeline {
     agent any
 
     stages {
+        stage('Removing images'){
+            steps {
+            sh 'docker rm --force postgres'
+            }
+        }
         stage('Build Sub-Net backend') {
             steps {
                 sh ' docker network create --subnet=122.22.0.0/16 my-net '
