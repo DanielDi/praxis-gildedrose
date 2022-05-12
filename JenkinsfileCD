@@ -16,6 +16,12 @@ pipeline {
                         docker rm back-end
                         docker rmi danieldi/backend
                     fi
+
+                    if [[ "$(docker images -q danieldi/front)" != "" ]]; then
+                        docker stop font-end
+                        docker rm font-end
+                        docker rmi danieldi/front
+                    fi
                     '''.stripIndent()
                 )
             }
@@ -31,9 +37,14 @@ pipeline {
                 sh 'docker run --name my-postgres --network="my-net" --ip 122.22.0.2 -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres'
             }
         }
-        stage('Run backend') {
+        // stage('Run backend') {
+        //     steps {
+        //         sh 'docker run --name back-end --network="my-net" --ip 122.22.0.22 -p 8090:8080 -d danieldi/backend '
+        //     }
+        // }
+        stage('Run frontend') {
             steps {
-                sh 'docker run --name back-end --network="my-net" --ip 122.22.0.22 -p 8090:8080 -d danieldi/backend '
+                sh 'docker run --name font-end --network="my-net" --ip 122.22.0.32 -p 4200:4200 -d danieldi/front'
             }
         }
     }
