@@ -2,6 +2,18 @@ pipeline {
     agent any
 
     stages {
+        stage('Delete postgres') {
+            steps {
+                sh(returnStdout: true, script: '''#!/bin/bash
+                    if [[ "$(docker images -q postgres)" != "" ]]; then
+                        docker stop my-postgres
+                        docker rm my-postgres
+                        docker rmi postgres
+                    fi
+                    '''.stripIndent()
+                )
+            }
+        }
         stage('Create Network') {
             steps {
                 sh 'docker network rm my-net'
@@ -10,17 +22,8 @@ pipeline {
         }
         stage('Run postgres') {
             steps {
-                sh(returnStdout: true, script: '''#!/bin/bash
-                    if [[ "$(docker images -q postgres)" != "" ]]; then
-                        docker stop my-postgres
-                        docker rm my-postgres
-                        docker rmi postgres
-                    fi
-                    docker run --name my-postgres --network="my-net" --ip 122.22.0.2 -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres
-                    '''.stripIndent()
-                )
+                sh 'docker run --name my-postgres --network="my-net" --ip 122.22.0.2 -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres'
             }
         }
     }
-
 }
