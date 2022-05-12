@@ -1,0 +1,12 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Create Network') {
+            steps {
+                sh 'docker network rm my-net'
+                sh 'docker network create --subnet=122.22.0.0/16 my-net'
+            }
+        }
+    }
+}
