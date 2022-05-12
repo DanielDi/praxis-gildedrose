@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Run Back') {
             steps {
-                sh 'docker run --name back-end --network="my-net" --ip 122.22.0.22 -p 8090:8080 -d backend'
+                sh 'docker run --name back-end --network="my-net" --ip 122.22.0.22 -p 8090:8080 -d danieldi/backend'
             }
         }
         stage('Test Back') {
