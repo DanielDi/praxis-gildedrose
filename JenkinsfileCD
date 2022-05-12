@@ -10,7 +10,7 @@ pipeline {
         }
         stage('Run postgres') {
             steps {
-                sh 'if [[ "$(docker images -q postges" == "" ]]; then
+                sh 'if [[ "$(docker images -q postges" != "" ]]; then
                         docker stop postgres
                         docker rmi postgres
                     fi'
