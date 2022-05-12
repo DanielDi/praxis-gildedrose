@@ -11,9 +11,9 @@ pipeline {
         stage('Run postgres') {
             steps {
                 sh(returnStdout: true, script: '''#!/bin/bash
-                    if [[ "$(docker images -q postges" != "" ]]; then
-                        sh docker stop postgres
-                        sh docker rmi postgres
+                    if [[ "$(docker images -q postges)" != "" ]]; then
+                        docker stop postgres
+                        docker rmi postgres
                     fi
                     docker run --name my-postgres --network="my-net" --ip 122.22.0.2 -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres
                     '''.stripIndent()
