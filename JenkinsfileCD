@@ -29,23 +29,23 @@ pipeline {
         stage('Create Network') {
             steps {
                 sh 'docker network rm my-net'
-                sh 'docker network create --subnet=122.22.0.0/16 my-net'
+                sh 'docker network create --subnet=34.193.0.0/16 my-net'
             }
         }
         stage('Run postgres') {
             steps {
-                sh 'docker run --name my-postgres --network="my-net" --ip 122.22.0.2 -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres'
+                sh 'docker run --name my-postgres --network="my-net" --ip 34.193.0.2 -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres'
             }
         }
-        // stage('Run backend') {
+        stage('Run backend') {
+            steps {
+                sh 'docker run --name back-end --network="my-net" --ip 34.193.0.22 -p 8090:8080 danieldi/backend '
+            }
+        }
+        // stage('Run frontend') {
         //     steps {
-        //         sh 'docker run --name back-end --network="my-net" --ip 122.22.0.22 -p 8090:8080 -d danieldi/backend '
+        //         sh 'docker run --name font-end --network="my-net" --ip 34.193.0.32 -p 4200:4200 -d danieldi/front'
         //     }
         // }
-        stage('Run frontend') {
-            steps {
-                sh 'docker run --name font-end --network="my-net" --ip 122.22.0.32 -p 4200:4200 -d danieldi/front'
-            }
-        }
     }
 }
