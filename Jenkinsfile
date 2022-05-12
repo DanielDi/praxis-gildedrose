@@ -20,7 +20,12 @@ pipeline {
         }
         stage('Build Back') {
             steps {
-                sh ' docker build -t backend . '
+                sh ' docker pull danieldi/backend '
+            }
+        }
+        stage('Run Back') {
+            steps {
+                sh 'docker run --name back-end --network="my-net" --ip 122.22.0.22 -p 8090:8080 -d backend'
             }
         }
         stage('Test Back') {

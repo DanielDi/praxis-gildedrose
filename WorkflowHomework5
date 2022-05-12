@@ -8,11 +8,11 @@ Step to step:
 5. Build an back-end image :
     ''' docker build -t backend . '''
 6. Run the container :
-    ''' docker run --name back-end --network="my-net" --ip 122.22.0.22 -p 8080:8080 -d backend '''
+    ''' docker run --name back-end --network="my-net" --ip 122.22.0.22 -p 8090:8080 -d backend '''
 7. Make sure the project is running and executing the spring-boot application (wait for it to finish)
 8. Go to a PRAXIS-FE (Front)
 9. Build an front-end image :
-    '' docker build -t front . '''
+    ''' docker build -t front . '''
 10.Run the container :
     ''' docker run --name font-end --network="my-net" --ip 122.22.0.32 -p 4200:4200 -d front '''
 
