@@ -44,7 +44,7 @@ pipeline {
         // }
         stage('Run frontend') {
             steps {
-                sh 'docker run --name font-end --network="my-net" --ip 34.193.0.32 -p 4200:4200 -d danieldi/front'
+                sh 'docker run --name font-end --network="my-net" --ip 34.193.0.32 -p 4200:4200 danieldi/front'
             }
         }
     }
