@@ -39,7 +39,7 @@ pipeline {
         }
         stage('Run backend') {
             steps {
-                sh 'docker run --name back-end --network="my-net" --ip 34.193.0.22 -p 8090:8080 danieldi/backend '
+                sh 'docker run --name back-end --network="my-net" --ip 34.193.0.22 -p 8090:8080 -d danieldi/backend '
             }
         }
         // stage('Run frontend') {
