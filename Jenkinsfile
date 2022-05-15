@@ -14,4 +14,5 @@ node {
     stage('Push image') {
         sh 'docker push danieldi/backend'
     }
+    
 }
