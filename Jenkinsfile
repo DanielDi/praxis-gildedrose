@@ -4,9 +4,7 @@ node {
 
     }
     stage('Build Back Image') {
-        steps {
-            sh 'docker build -t danieldi/backend .'
-        }
+        sh 'docker build -t danieldi/backend .'
     }
     stage('Test Back') {
         steps {
