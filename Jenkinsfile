@@ -2,6 +2,10 @@ pipeline {
     agent any
 
     stages {
+        stage('Get a changes'){
+            git url:'https://github.com/DanielDi/praxis-gildedrose', branch:'main'
+
+        }
         stage('Build Back Image') {
             steps {
                 sh 'docker build -t danieldi/backend .'
