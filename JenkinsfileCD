@@ -37,6 +37,7 @@ pipeline {
                 )
             }
         }
+        
         stage('Create Network') {
             steps {
                 if (docker network ls | select-string my-net -Quiet )
