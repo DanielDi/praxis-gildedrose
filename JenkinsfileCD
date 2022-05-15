@@ -38,9 +38,11 @@ pipeline {
             }
         }
         stage('Create Network') {
-            
             steps {
-                sh 'docker network rm my-net'
+                if (docker network ls | select-string my-net -Quiet )
+                {
+                    sh 'docker network rm my-net'
+                }
                 sh 'docker network create --subnet=122.22.0.0/16 my-net'
             }
         }
