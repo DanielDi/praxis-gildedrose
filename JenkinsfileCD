@@ -42,7 +42,7 @@ pipeline {
             steps {
                 sh(returnStdout: true, script: '''#!/bin/bash
                     if [[ "$(docker network ls | grep my-net )" == "" ]] ; then
-                        docker network create my-net
+                        docker network create --subnet=122.22.0.0/16 my-net
                     fi
                     '''.stripIndent()
                 )
