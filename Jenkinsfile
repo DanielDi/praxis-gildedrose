@@ -11,8 +11,9 @@ node {
     stage('Docker login') {
         sh 'docker login -u danieldi -p Praxis20221*team7'
     }
+    
     stage('Push image') {
         sh 'docker push danieldi/backend'
     }
-    
+
 }
