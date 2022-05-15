@@ -1,7 +1,6 @@
 node {
     stage('Get a changes'){
         git url:'https://github.com/DanielDi/praxis-gildedrose', branch:'main'
-
     }
     stage('Build Back Image') {
         sh 'docker build -t danieldi/backend .'
