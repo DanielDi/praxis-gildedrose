@@ -41,11 +41,9 @@ pipeline {
         stage('Create Network') {
             steps {
                 sh(returnStdout: true, script: '''#!/bin/bash
-                    if (docker network ls | select-string my-net -Quiet )
-                    {
-                        docker network rm my-net
-                    }
-                    docker network create --subnet=122.22.0.0/16 my-net
+                    if [[ "$(docker network ls | grep my-net )" == "" ]] ; then
+                        docker network create my-net
+                    fi
                     '''.stripIndent()
                 )
 
