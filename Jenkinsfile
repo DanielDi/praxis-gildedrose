@@ -1,14 +1,11 @@
 node {
     stage('Create Network') {
-        steps {
-            sh(returnStdout: true, script: '''#!/bin/bash
-                if [[ "$(docker network ls | grep my-net )" == "" ]] ; then
-                    docker network create --subnet=122.22.0.0/16 my-net
-                fi
-                '''.stripIndent()
-            )
-
-        }
+        sh(returnStdout: true, script: '''#!/bin/bash
+            if [[ "$(docker network ls | grep my-net )" == "" ]] ; then
+                docker network create --subnet=122.22.0.0/16 my-net
+            fi
+            '''.stripIndent()
+        )
     }
     stage('Get a changes'){
         git url:'https://github.com/DanielDi/praxis-gildedrose', branch:'main'
