@@ -30,8 +30,8 @@ node {
             fi
             '''.stripIndent()
         )
-        sh 'docker run --name my-postgres --network="my-net" --ip 122.22.0.2 -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres'
-        sh 'docker run --name back-end --network="my-net" --ip 122.22.0.22 -p 8090:8080 -d danieldi/backend mvn test'
+        // sh 'docker run --name my-postgres --network="my-net" --ip 122.22.0.2 -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres'
+        // sh 'docker run --name back-end --network="my-net" --ip 122.22.0.22 -p 8090:8080 -d danieldi/backend mvn test'
     }
     stage('Docker login') {
         sh 'docker login -u danieldi -p Praxis20221*team7'
