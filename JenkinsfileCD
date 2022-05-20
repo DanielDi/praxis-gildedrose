@@ -65,5 +65,3 @@ pipeline {
         }
     }
 }
-
-docker run --name back-end --network="my-net" --ip 122.22.0.22 -p 8090:8080 danieldi/backend
