@@ -31,7 +31,7 @@ node {
             '''.stripIndent()
         )
         // sh 'docker run --name my-postgres --network="my-net" --ip 122.22.0.2 -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres'
-        sh 'docker run --name back-end -e DB_HOST=group7-rds.cqqmj66dxtlw.us-east-1.rds.amazonaws.com -p 8090:8080 danieldi/backend mvn test'
+        sh 'docker run --name back-end -e DB_HOST=group7-rds.cqqmj66dxtlw.us-east-1.rds.amazonaws.com -p 8090:8080 danieldi/backend'
     }
     stage('Docker login') {
         sh 'docker login -u danieldi -p Praxis20221*team7'
