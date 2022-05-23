@@ -30,6 +30,7 @@ node {
             fi
             '''.stripIndent()
         )
+        sh 'docker build -t danieldi/backend .'
         // sh 'docker run --name my-postgres --network="my-net" --ip 122.22.0.2 -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres'
         sh 'docker run --name back-end -e DB_HOST=group7-rds.cqqmj66dxtlw.us-east-1.rds.amazonaws.com -p 8090:8080 danieldi/backend'
     }
