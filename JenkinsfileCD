@@ -46,7 +46,7 @@ pipeline {
         }
         stage('Run frontend') {
             steps {
-                sh 'docker run --name front-end -p 4200:4200 danieldi/front'
+                sh 'docker run --name front-end -p 4200:4200 -d danieldi/front'
             }
         }
     }
