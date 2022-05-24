@@ -41,7 +41,7 @@ pipeline {
         # }
         stage('Run backend') {
             steps {
-                sh 'docker run --name back-end -e DB_HOST=group7-rds.cqqmj66dxtlw.us-east-1.rds.amazonaws.com -p 8090:8080 danieldi/backend'
+                sh 'docker run --name back-end -e DB_HOST=group7-rds.cqqmj66dxtlw.us-east-1.rds.amazonaws.com -p 8090:8080 -d danieldi/backend'
             }
         }
         stage('Run frontend') {
