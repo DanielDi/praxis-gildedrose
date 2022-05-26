@@ -38,7 +38,7 @@ public class ItemServiceTest {
 
         Item createdItem = itemService.createItem(item);
 
-        assertEquals("ProofName", createdItem.name);
+        assertEquals("OtherName", createdItem.name);
     }
 
 
