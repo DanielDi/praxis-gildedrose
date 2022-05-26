@@ -39,5 +39,4 @@ node {
     stage('Push image to docker-hub') {
         sh 'docker push danieldi/backend'
     }
-
 }
