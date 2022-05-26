@@ -29,17 +29,21 @@ public class ItemServiceTest {
     @Autowired
     private ItemService itemService;
 
-    @Test   
-    //  * Test fail proof
-    public void testUnitTestFail() {
+    // @Test 
+    // /** 
+    //  * GIVEN a new item that doesn't exist in database
+    //  * WHEN createItem method is called
+    //  * THEN in the assert method write another name for the test to fail
+    // */  
+    // public void testUnitTestFail() {
 
-        var item = new Item(0, "ProofName", 10, 30, Item.Type.NORMAL);
-        when(itemRepository.save(any(Item.class))).thenReturn(item);
+    //     var item = new Item(0, "ProofName", 10, 30, Item.Type.NORMAL);
+    //     when(itemRepository.save(any(Item.class))).thenReturn(item);
 
-        Item createdItem = itemService.createItem(item);
+    //     Item createdItem = itemService.createItem(item);
 
-        assertEquals("OtherName", createdItem.name);
-    }
+    //     assertEquals("OtherName", createdItem.name);
+    // }
 
 
     @Test
