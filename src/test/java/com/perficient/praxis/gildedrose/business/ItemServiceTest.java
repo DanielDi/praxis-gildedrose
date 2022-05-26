@@ -33,19 +33,11 @@ public class ItemServiceTest {
     //  * Test fail proof
     public void testUnitTestFail() {
 
-        // var item = new Item(0, "NameProof", 10, 30, Item.Type.NORMAL);
-        // when(itemRepository.save(any(Item.class))).thenReturn(item);
+        var item = new Item(0, "NameProof", 10, 30, Item.Type.NORMAL);
 
-        // Item createdItem = itemService.createItem(item);
-
-        // assertEquals(item, createdItem);
-        var item = new Item(5, "Cookie", 10, 30, Item.Type.NORMAL);
-        itemRepository.save(item);
-
-        when(itemRepository.findById(anyInt())).thenReturn(Optional.empty());
-
-        assertThrows(ResourceNotFoundException.class, () ->
-                itemService.updateItem(6, item));
+        Item createdItem = itemService.createItem(item);
+        
+        assertEquals(item, createdItem)
     }
 
 
