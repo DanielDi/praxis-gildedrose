@@ -58,7 +58,7 @@ public class QualityServiceTest {
         List<Item> itemsUpdated = qualityService.updateQuality();
 
         assertEquals(0 , itemsUpdated.get(0).getId());
-        assertEquals("Cheesee" , itemsUpdated.get(0).name);
+        assertEquals("Cheese" , itemsUpdated.get(0).name);
         assertEquals(1 , itemsUpdated.get(0).sellIn);
         assertEquals(31 , itemsUpdated.get(0).quality);
         assertEquals(item.type , itemsUpdated.get(0).type);
