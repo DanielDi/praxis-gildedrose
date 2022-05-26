@@ -34,11 +34,10 @@ public class ItemServiceTest {
     public void testUnitTestFail() {
 
         var item = new Item(0, "NameProof", 10, 30, Item.Type.NORMAL);
-        when(itemRepository.save(any(Item.class))).thenReturn(item);
-        
+
         Item createdItem = itemService.createItem(item);
 
-        assertEquals(createdItem.name, 'OtherName');
+        assertEquals(item, createdItem);
     }
 
 
