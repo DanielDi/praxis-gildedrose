@@ -23,7 +23,7 @@ public class QualityServiceTest {
     private ItemRepository itemRepository;
 
     @Autowired
-    private QualityService qualityService;
+    private UnitTestFail qualityService;
 
 
     @Test
