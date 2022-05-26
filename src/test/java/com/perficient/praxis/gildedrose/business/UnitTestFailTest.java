@@ -1,4 +1,4 @@
-/**package com.perficient.praxis.gildedrose.business;
+package com.perficient.praxis.gildedrose.business;
 
 import com.perficient.praxis.gildedrose.error.DuplicatedFoundItemException;
 import com.perficient.praxis.gildedrose.error.ResourceNotFoundException;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class QualityServiceTest {
+public class UnitTestFailTest {
     @MockBean
     private ItemRepository itemRepository;
 
@@ -37,15 +37,7 @@ public class QualityServiceTest {
     public void testUnitTestFail() {
 
         var item = new Item(0, "Name", 2, 30, Item.Type.AGED);
-        when(itemRepository.findAll()).thenReturn(List.of(item));
 
-        List<Item> itemsUpdated = qualityService.updateQuality();
-
-        assertEquals(0 , itemsUpdated.get(0).getId());
-        assertEquals("Distinct Name" , itemsUpdated.get(0).name);
-        assertEquals(1 , itemsUpdated.get(0).sellIn);
-        assertEquals(31 , itemsUpdated.get(0).quality);
-        assertEquals(item.type , itemsUpdated.get(0).type);
+        assertEquals("Name" , itemsUpdated.get(0).name);
     }
 }
-*/
