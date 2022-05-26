@@ -36,8 +36,8 @@ public class ItemServiceTest {
         var item = new Item(0, "NameProof", 10, 30, Item.Type.NORMAL);
 
         Item createdItem = itemService.createItem(item);
-        
-        assertEquals(item, createdItem)
+
+        assertEquals(item, createdItem);
     }
 
 
