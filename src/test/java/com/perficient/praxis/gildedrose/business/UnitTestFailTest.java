@@ -38,6 +38,6 @@ public class UnitTestFailTest {
 
         var item = new Item(0, "Name", 2, 30, Item.Type.AGED);
 
-        assertEquals("Name" , item[1]');
+        assertEquals("Name" , item.get(0).name);
     }
 }
