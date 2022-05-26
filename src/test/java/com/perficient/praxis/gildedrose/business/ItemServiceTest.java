@@ -37,7 +37,7 @@ public class ItemServiceTest {
 
         Item createdItem = itemService.createItem(item);
 
-        assertEquals(item, createdItem);
+        assertEquals(createdItem.name, 'OtherName');
     }
 
 
