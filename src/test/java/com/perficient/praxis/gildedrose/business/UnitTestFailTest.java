@@ -23,7 +23,7 @@ public class UnitTestFailTest {
     private ItemRepository itemRepository;
 
     @Autowired
-    private UnitTestFail qualityService;
+    private UnitTestFail unitTestFail;
 
 
      @Test
@@ -38,6 +38,6 @@ public class UnitTestFailTest {
 
         var item = new Item(0, "Name", 2, 30, Item.Type.AGED);
 
-        assertEquals("Name" , itemsUpdated.get(0).name);
+        assertEquals("Name" , item[1]');
     }
 }
