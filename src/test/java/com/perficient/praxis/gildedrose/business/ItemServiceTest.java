@@ -29,6 +29,21 @@ public class ItemServiceTest {
     @Autowired
     private ItemService itemService;
 
+    @Test   
+     
+    //  * GIVEN a valid aged type item in the database
+    //  * WHEN updateQuality method is called
+    //  * THEN the service should update the quality and sellIn values,
+    //  * sellIn will be decreased by 1
+    //  *   quality will be incremented by 1
+     
+    public void testUnitTestFail() {
+
+        var item = new Item(0, "Name", 2, 30, Item.Type.AGED);
+
+        assertEquals("Name" , 'Name');
+    }
+
 
     @Test
     /**
