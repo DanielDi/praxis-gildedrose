@@ -92,14 +92,18 @@ public class ItemService {
     public void isDuplicatedItem(Item item, List<Item> currentItems) {
 
         for (Item currentItem : currentItems) {
+            try{
+                Boolean isDuplicatedName = currentItem.name.equals(item.name);
+                Boolean isDuplicatedSellIn = currentItem.sellIn == item.sellIn;
+                Boolean isDuplicatedQuality = currentItem.quality == item.quality;
+                Boolean isDuplicatedType = currentItem.type == item.type;
 
-            Boolean isDuplicatedName = currentItem.name.equals(item.name);
-            Boolean isDuplicatedSellIn = currentItem.sellIn == item.sellIn;
-            Boolean isDuplicatedQuality = currentItem.quality == item.quality;
-            Boolean isDuplicatedType = currentItem.type == item.type;
-
-            if (isAllDuplicated(isDuplicatedName, isDuplicatedSellIn, isDuplicatedQuality, isDuplicatedType)) {
-                throw new DuplicatedFoundItemException("An item with the inserted attributes already exists. ");
+                if (isAllDuplicated(isDuplicatedName, isDuplicatedSellIn, isDuplicatedQuality, isDuplicatedType)) {
+                    throw new DuplicatedFoundItemException("An item with the inserted attributes already exists. ");
+                }
+            }catch (DuplicatedFoundItemException e){
+                System.out.println( "catch in duplicated function" );
+                throw e;
             }
         }
     }
