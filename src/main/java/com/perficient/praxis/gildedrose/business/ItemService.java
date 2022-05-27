@@ -31,7 +31,7 @@ public class ItemService {
             Item createdItem = itemRepository.save(item);
             return createdItem;
         } catch (DuplicatedFoundItemException e) {
-            throw e;
+            System.out.println( "Item duplicado: " + e );
         // } catch (QualityIsNegativeException e) {
         //     throw e;
         }
