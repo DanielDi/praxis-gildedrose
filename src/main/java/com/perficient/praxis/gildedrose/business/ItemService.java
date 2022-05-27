@@ -22,7 +22,7 @@ public class ItemService {
         this.items = items;
     }
 
-    public Item createItem(Item item) throws isDuplicatedItem, isNoNegativeQuality{
+    public Item createItem(Item item){
 
         try {
             List<Item> currentItems = itemRepository.findAll();
@@ -89,7 +89,7 @@ public class ItemService {
 
     //Check if a given item has the same attributes of any
     //item in the database, except for the id.
-    public void isDuplicatedItem(Item item, List<Item> currentItems) {
+    public void isDuplicatedItem(Item item, List<Item> currentItems) throws DuplicatedFoundItemException {
 
         for (Item currentItem : currentItems) {
             try{
