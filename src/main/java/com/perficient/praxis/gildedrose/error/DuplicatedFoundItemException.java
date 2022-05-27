@@ -8,5 +8,6 @@ public class DuplicatedFoundItemException extends RuntimeException{
 
     public DuplicatedFoundItemException(String message){
         super(message);
+        return message;
     }
 }
