@@ -29,12 +29,12 @@ public class ItemServiceTest {
     @Autowired
     private ItemService itemService;
 
-    /** @Test 
-    
+    @Test 
+    /** 
      * GIVEN a new item that doesn't exist in database
      * WHEN createItem method is called
      * THEN in the assert method write another name for the test to fail
-      
+    */ 
     public void testUnitTestFail() {
 
         var item = new Item(0, "ProofName", 10, 30, Item.Type.NORMAL);
@@ -42,8 +42,8 @@ public class ItemServiceTest {
 
         Item createdItem = itemService.createItem(item);
 
-        assertEquals("OtherName", createdItem.name);
-    }*/
+        assertEquals("ProofName", createdItem.name);
+    }
 
 
     @Test
