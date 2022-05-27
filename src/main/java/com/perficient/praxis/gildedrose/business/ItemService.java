@@ -22,7 +22,7 @@ public class ItemService {
         this.items = items;
     }
 
-    public Item createItem(Item item) {
+    public Item createItem(Item item) throws isDuplicatedItem, isNoNegativeQuality{
 
         try {
             List<Item> currentItems = itemRepository.findAll();
