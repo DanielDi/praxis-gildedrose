@@ -22,13 +22,6 @@ public class ItemService {
         this.items = items;
     }
 
-    // In this service there are only the methods that correspond to the CRUD of an item
-    // CRUD:
-    // Create (single and batch items)
-    // Read (list items)
-    // Update
-    // Delete (Not implemented)
-
     public Item createItem(Item item) {
 
         try {
