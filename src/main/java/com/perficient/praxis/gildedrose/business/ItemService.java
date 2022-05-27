@@ -32,6 +32,7 @@ public class ItemService {
             return createdItem;
         } catch (DuplicatedFoundItemException e) {
             System.out.println( "Item duplicado: " + e );
+            throw;
         // } catch (QualityIsNegativeException e) {
         //     throw e;
         }
