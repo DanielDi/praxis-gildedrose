@@ -110,11 +110,16 @@ public class ItemService {
     }
 
     public void isQualityExceeded(Item item) {
-        if (item.type != 3 &&  item.quality > 50){
-            throw new QualityUnsuitableException("Quality is more than fifty");
-        }
-        else if (item.type == 3 &&  item.quality > 80){
-            throw new QualityUnsuitableException("Quality is more than eighty");
+        switch (item.type) {
+            case LEGENDARY:
+                if (item.quality > 80){
+                    throw new QualityUnsuitableException("Quality is more than eighty");
+                }
+            break;
+            default:
+                if (item.quality > 50){
+                    throw new QualityUnsuitableException("Quality is more than fifty");
+                }
         }
     }
 
