@@ -2,7 +2,7 @@ package com.perficient.praxis.gildedrose.business;
 
 import com.perficient.praxis.gildedrose.error.DuplicatedFoundItemException;
 import com.perficient.praxis.gildedrose.error.ResourceNotFoundException;
-// import com.perficient.praxis.gildedrose.error.QualityIsNegativeException;
+import com.perficient.praxis.gildedrose.error.QualityIsNegativeException;
 
 import com.perficient.praxis.gildedrose.model.Item;
 import com.perficient.praxis.gildedrose.repository.ItemRepository;
@@ -27,13 +27,13 @@ public class ItemService {
         try {
             List<Item> currentItems = itemRepository.findAll();
             isDuplicatedItem(item, currentItems);
-            // isNoNegativeQuality(item);
+            isNoNegativeQuality(item);
             Item createdItem = itemRepository.save(item);
             return createdItem;
         } catch (DuplicatedFoundItemException e) {
             throw e;
-        // } catch (QualityIsNegativeException e) {
-        //     throw e;
+        } catch (QualityIsNegativeException e) {
+            throw e;
         }
 
     }
@@ -102,11 +102,11 @@ public class ItemService {
         }
     }
 
-    // public void isNoNegativeQuality(Item item) {
-    //     if (item.quality < 0){
-    //         throw new QualityIsNegativeException("Quality is less than zero");
-    //     }
-    // }
+    public void isNoNegativeQuality(Item item) {
+        if (item.quality < 0){
+            throw new QualityIsNegativeException("Quality is less than zero");
+        }
+    }
 
     private boolean isAllDuplicated(Boolean isDuplicatedName, Boolean isDuplicatedSellIn, Boolean isDuplicatedQuality, Boolean isDuplicatedType) {
         return isDuplicatedName && isDuplicatedSellIn && isDuplicatedQuality && isDuplicatedType;
