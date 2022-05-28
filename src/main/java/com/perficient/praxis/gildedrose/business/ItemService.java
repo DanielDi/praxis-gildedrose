@@ -31,7 +31,6 @@ public class ItemService {
             Item createdItem = itemRepository.save(item);
             return createdItem;
         } catch (DuplicatedFoundItemException e) {
-            System.out.println( "Item duplicado: " + e );
             throw e;
         // } catch (QualityIsNegativeException e) {
         //     throw e;
@@ -89,21 +88,16 @@ public class ItemService {
 
     //Check if a given item has the same attributes of any
     //item in the database, except for the id.
-    public void isDuplicatedItem(Item item, List<Item> currentItems) throws DuplicatedFoundItemException {
+    public void isDuplicatedItem(Item item, List<Item> currentItems){
 
         for (Item currentItem : currentItems) {
-            try{
-                Boolean isDuplicatedName = currentItem.name.equals(item.name);
-                Boolean isDuplicatedSellIn = currentItem.sellIn == item.sellIn;
-                Boolean isDuplicatedQuality = currentItem.quality == item.quality;
-                Boolean isDuplicatedType = currentItem.type == item.type;
+            Boolean isDuplicatedName = currentItem.name.equals(item.name);
+            Boolean isDuplicatedSellIn = currentItem.sellIn == item.sellIn;
+            Boolean isDuplicatedQuality = currentItem.quality == item.quality;
+            Boolean isDuplicatedType = currentItem.type == item.type;
 
-                if (isAllDuplicated(isDuplicatedName, isDuplicatedSellIn, isDuplicatedQuality, isDuplicatedType)) {
-                    throw new DuplicatedFoundItemException("An item with the inserted attributes already exists. ");
-                }
-            }catch (DuplicatedFoundItemException e){
-                System.out.println( "catch in duplicated function" );
-                throw e;
+            if (isAllDuplicated(isDuplicatedName, isDuplicatedSellIn, isDuplicatedQuality, isDuplicatedType)) {
+                throw new DuplicatedFoundItemException("An item with the inserted attributes already exists. ");
             }
         }
     }
