@@ -28,7 +28,7 @@ public class ItemService {
             List<Item> currentItems = itemRepository.findAll();
             isDuplicatedItem(item, currentItems);
             isNoNegativeQuality(item);
-            isQualityExceeded(item)
+            isQualityExceeded(item);
             Item createdItem = itemRepository.save(item);
             return createdItem;
         } catch (DuplicatedFoundItemException e) {
