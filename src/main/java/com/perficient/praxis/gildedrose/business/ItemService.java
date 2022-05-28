@@ -2,7 +2,7 @@ package com.perficient.praxis.gildedrose.business;
 
 import com.perficient.praxis.gildedrose.error.DuplicatedFoundItemException;
 import com.perficient.praxis.gildedrose.error.ResourceNotFoundException;
-import com.perficient.praxis.gildedrose.error.QualityIsNegativeException;
+import com.perficient.praxis.gildedrose.error.QualityUnsuitableException;
 
 import com.perficient.praxis.gildedrose.model.Item;
 import com.perficient.praxis.gildedrose.repository.ItemRepository;
@@ -28,11 +28,12 @@ public class ItemService {
             List<Item> currentItems = itemRepository.findAll();
             isDuplicatedItem(item, currentItems);
             isNoNegativeQuality(item);
+            isQualityExceeded(item)
             Item createdItem = itemRepository.save(item);
             return createdItem;
         } catch (DuplicatedFoundItemException e) {
             throw e;
-        } catch (QualityIsNegativeException e) {
+        } catch (QualityUnsuitableException e) {
             throw e;
         }
 
@@ -104,7 +105,16 @@ public class ItemService {
 
     public void isNoNegativeQuality(Item item) {
         if (item.quality < 0){
-            throw new QualityIsNegativeException("Quality is less than zero");
+            throw new QualityUnsuitableException("Quality is less than zero");
+        }
+    }
+
+    public void isQualityExceeded(Item item) {
+        if (item.type != 3 &&  item.quality > 50){
+            throw new QualityUnsuitableException("Quality is more than fifty");
+        }
+        else if (item.type == 3 &&  item.quality > 80){
+            throw new QualityUnsuitableException("Quality is more than eighty");
         }
     }
 
