@@ -4,7 +4,7 @@ pipeline {
         stage('Delete backend container') {
             steps {
                 sh(returnStdout: true, script: '''#!/bin/bash
-                    if [[ "$(docker images -q danieldi/backend)" != "" ]]; then
+                    if [[ "$(docker ps | grep back-end)" != "" ]]; then
                         docker stop back-end
                         docker rm back-end
                     fi
@@ -15,7 +15,7 @@ pipeline {
         stage('Delete frontend container') {
             steps {
                 sh(returnStdout: true, script: '''#!/bin/bash
-                    if [[ "$(docker images -q danieldi/front)" != "" ]]; then
+                    if [[ "$(docker ps | grep front-end)" != "" ]]; then
                         docker stop front-end
                         docker rm front-end
                     fi
