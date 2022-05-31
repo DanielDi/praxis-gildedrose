@@ -31,7 +31,11 @@ pipeline {
         stage('Run frontend') {
             steps {
                 withEnv(["BACKEND_HOST=docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' back-end"]) {
-                echo env.BACKEND_HOST   }
+                echo "HOLA AAAAAA"
+                echo env.BACKEND_HOST
+                }
+                echo "INTENTO 2"
+                echo env.BACKEND_HOST
                 sh "docker run --name front-end -e env.BACKEND_HOST -p 4200:4200 -d danieldi/front"
             }
         }
