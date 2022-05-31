@@ -30,7 +30,7 @@ pipeline {
         }
         stage('Run frontend') {
             steps {
-                sh "docker run --name front-end -e BACKEND_HOST=/$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' back-end) -p 4200:4200 -d danieldi/front"
+                sh "docker run --name front-end -e BACKEND_HOST=\${docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' back-end} -p 4200:4200 -d danieldi/front"
             }
         }
     }
