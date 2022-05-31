@@ -30,7 +30,7 @@ pipeline {
         }
         stage('Run frontend') {
             steps {
-                withEnv(["BACKEND_HOST=docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' back-end"]) {
+                withEnv(["BACKEND_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' back-end)"]) {
                 echo "HOLA AAAAAA"
                 echo env.BACKEND_HOST
                 }
