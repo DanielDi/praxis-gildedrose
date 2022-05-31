@@ -1,5 +1,12 @@
-### Gilded Rose Requirements Specification
+### Related projects:
 
+- (Front-end) https://github.com/jsapuyesp/praxis-FE
+- (Back-end) https://github.com/DanielDi/praxis-gildedrose
+- (API tests) https://github.com/jsapuyesp/workshop-api-testing-js
+- (UI tests) https://github.com/canojuanpa800/Cypress-Front-Praxis
+- (Terraform) https://github.com/DanielDi/praxis-terraform
+
+### Gilded Rose Requirements Specification
 
 Hi and welcome to team Gilded Rose. As you know, we are a small inn with a prime location in a
 prominent city ran by a friendly innkeeper named Allison. We also buy and sell only the finest goods.
