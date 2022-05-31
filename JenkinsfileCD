@@ -23,22 +23,6 @@ pipeline {
                 )
             }
         }
-        # stage('Create Network') {
-        #     steps {
-        #         sh(returnStdout: true, script: '''#!/bin/bash
-        #             if [[ "$(docker network ls | grep my-net )" == "" ]] ; then
-        #                 docker network create --subnet=122.22.0.0/16 my-net
-        #             fi
-        #             '''.stripIndent()
-        #         )
-
-        #     }
-        # }
-        # stage('Run postgres') {
-        #     steps {
-        #         sh 'docker run --name my-postgres --network="my-net" --ip 122.22.0.2 -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres'
-        #     }
-        # }
         stage('Run backend') {
             steps {
                 sh 'docker run --name back-end -e DB_HOST=group7-rds.cqqmj66dxtlw.us-east-1.rds.amazonaws.com -p 8090:8080 -d danieldi/backend'
