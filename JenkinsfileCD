@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages{
-        stage('Delete backend image') {
+        stage('Delete backend container') {
             steps {
                 sh(returnStdout: true, script: '''#!/bin/bash
                     if [[ "$(docker images -q danieldi/backend)" != "" ]]; then
@@ -12,7 +12,7 @@ pipeline {
                 )
             }
         }
-        stage('Delete frontend image') {
+        stage('Delete frontend container') {
             steps {
                 sh(returnStdout: true, script: '''#!/bin/bash
                     if [[ "$(docker images -q danieldi/front)" != "" ]]; then
@@ -30,6 +30,7 @@ pipeline {
         }
         stage('Run frontend') {
             steps {
+                # sh 'docker run --name front-end -e BACKEND_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' back-end) -p 4200:4200 -d danieldi/front'
                 sh 'docker run --name front-end -e BACKEND_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' back-end) -p 4200:4200 -d danieldi/front'
             }
         }
