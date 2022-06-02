@@ -24,6 +24,11 @@ To generate reports, install HTML Publisher plugin and finally go to manage Jenk
 System.setProperty('hudson.model.DirectoryBrowserSupport.CSP', '')
 ```
 
+Scenarios:
+- **Scenario 1:** A complete successful deployment (including tests)
+- **Scenario 2:** Unit test failing:
+ 	- Just uncomment from this repository the file from ItemServiceTest.java from line 32 to line 46 
+
 ### Gilded Rose Requirements Specification
 
 Hi and welcome to team Gilded Rose. As you know, we are a small inn with a prime location in a
