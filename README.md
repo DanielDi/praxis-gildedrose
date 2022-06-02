@@ -19,7 +19,7 @@ Go to http://44.205.30.180:8080 and create the following pipelines:
 - CD-praxis that runs the JenkinsfileCD from the backend git
 - API-test that runs the Jenkinsfile from the API tests git
 - UI-test that runs the Jenkinsfile from the UI tests git
-- 
+
 To generate reports, install HTML Publisher plugin and finally go to manage Jenkins -> Scripts and execute the next line: 
 ```
 System.setProperty('hudson.model.DirectoryBrowserSupport.CSP', '')
