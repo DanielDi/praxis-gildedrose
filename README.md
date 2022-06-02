@@ -7,10 +7,10 @@
 - (Terraform) https://github.com/DanielDi/praxis-terraform
 
 ### EC2 instance and RDS:
-- Go to the Terraform git (https://github.com/DanielDi/praxis-terraform)
-- Go into Terraform/deploy
-- Do Terraform init
-- Do terraform apply
+1. Go to the Terraform git (https://github.com/DanielDi/praxis-terraform)
+2. Go into Terraform/deploy
+3. Do Terraform init
+4. Do terraform apply
 
 ### Pipelines configuration:
 Go to http://44.205.30.180:8080 and create the following pipelines:
