@@ -1,7 +1,7 @@
 ### Related projects:
 
-- (Frontend) https://github.com/jsapuyesp/praxis-FE
 - (Backend) https://github.com/DanielDi/praxis-gildedrose
+- (Frontend) https://github.com/jsapuyesp/praxis-FE
 - (API tests) https://github.com/jsapuyesp/workshop-api-testing-js
 - (UI tests) https://github.com/canojuanpa800/Cypress-Front-Praxis
 - (Terraform) https://github.com/DanielDi/praxis-terraform
@@ -16,8 +16,8 @@
 Go to http://44.205.30.180:8080 and create the following pipelines:
 - CI-backend that runs the Jenkinsfile file from the backend git
 - CI-frontend that runs the Jenkinsfile file from the frontend git
-- CD-praxis that runs the JenkinsfileCD from the backend git
 - API-test that runs the Jenkinsfile from the API tests git
+- CD-praxis that runs the JenkinsfileCD from the backend git
 - UI-test that runs the Jenkinsfile from the UI tests git
 To generate reports, install HTML Publisher plugin and finally go to manage Jenkins -> Scripts and execute the next line: 
 ```
