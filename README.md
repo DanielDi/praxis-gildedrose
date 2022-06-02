@@ -28,6 +28,8 @@ Scenarios:
 - **Scenario 1:** A complete successful deployment (including tests)
 - **Scenario 2:** Unit test failing:
  	- Just uncomment from this repository the file from ItemServiceTest.java from line 32 to line 46 
+- **Scenario 3:** API test failing, do not crash your tests please!!!
+ 	- Just uncomment from *API tests* repository the file from ApiGildelroseConsume.test.js from line 165 to line 186 
 
 ### Gilded Rose Requirements Specification
 
