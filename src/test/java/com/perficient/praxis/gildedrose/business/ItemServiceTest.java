@@ -54,11 +54,14 @@ public class ItemServiceTest {
      */
     public void testGetItemByIdSuccess() {
 
+        // Arrange
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
         when(itemRepository.findById(anyInt())).thenReturn(Optional.of(item));
 
+        // Act
         Item itemFound = itemService.findById(0);
 
+        // Assert
         assertEquals(item, itemFound);
     }
 
