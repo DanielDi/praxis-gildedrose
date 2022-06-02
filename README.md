@@ -23,6 +23,11 @@ To generate reports, install HTML Publisher plugin and finally go to manage Jenk
 ```
 System.setProperty('hudson.model.DirectoryBrowserSupport.CSP', '')
 ```
+### Docker images:
+(frontend) https://hub.docker.com/repository/docker/danieldi/front
+
+(backend) https://hub.docker.com/repository/docker/danieldi/backend
+
 
 Scenarios:
 - **Scenario 1:** A complete successful deployment (including tests)
