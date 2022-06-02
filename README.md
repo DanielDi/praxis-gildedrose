@@ -19,6 +19,7 @@ Go to http://44.205.30.180:8080 and create the following pipelines:
 - CD-praxis that runs the JenkinsfileCD from the backend git
 - API-test that runs the Jenkinsfile from the API tests git
 - UI-test that runs the Jenkinsfile from the UI tests git
+- 
 To generate reports, install HTML Publisher plugin and finally go to manage Jenkins -> Scripts and execute the next line: 
 ```
 System.setProperty('hudson.model.DirectoryBrowserSupport.CSP', '')
@@ -29,7 +30,7 @@ System.setProperty('hudson.model.DirectoryBrowserSupport.CSP', '')
 (backend) https://hub.docker.com/repository/docker/danieldi/backend
 
 
-Scenarios:
+### Scenarios:
 - **Scenario 1:** A complete successful deployment (including tests)
 - **Scenario 2:** Unit test failing:
  	- Just uncomment from this repository the file from ItemServiceTest.java from line 32 to line 46 
