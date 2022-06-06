@@ -1,7 +1,7 @@
 ### Authors
-Daniel Espinal Mosquera - https://github.com/DanielDi
-Juan José Sapuyes Pino - https://github.com/jsapuyesp
-Juan Pablo Cano Ramirez - https://github.com/canojuanpa800
+- Daniel Espinal Mosquera - https://github.com/DanielDi
+- Juan José Sapuyes Pino - https://github.com/jsapuyesp
+- Juan Pablo Cano Ramirez - https://github.com/canojuanpa800
 
 ### Related projects:
 
